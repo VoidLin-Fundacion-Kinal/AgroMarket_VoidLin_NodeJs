@@ -23,7 +23,7 @@ const cartShoppingSchema = Schema(
         },
         status:{
             type:String,
-            enum: [ACTIVO,CANCELADO],
+            enum: ['ACTIVO','CANCELADO'],
             default: 'CANCELADO'
         }
     },
