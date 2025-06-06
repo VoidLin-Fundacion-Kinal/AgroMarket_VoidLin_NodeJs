@@ -1,5 +1,5 @@
-import {body} from 'express-validator'
-import {existUsername, existEmail, existCui, existNit, notRequiredField, existPhone} from './../utils/db.validators.js'
+import {body, param} from 'express-validator'
+import {existUsername, existEmail, existCui, existNit, notRequiredField, existPhone, existCategoryNameU, existCategoryName, validateCategoryId, validateCategoryName} from './../utils/db.validators.js'
 import { validateErrors } from './validate.error.js'
 
 export const registerValidator= [
@@ -47,4 +47,43 @@ export const registerValidator= [
     validateErrors
 
 
+]
+
+export const categoryValidator = [
+    body('name', 'Name cannot be empty')
+        .notEmpty()
+        .custom(existCategoryName),
+    body('description', 'Description cannot be empty')
+        .notEmpty()
+        .isLength({ min: 1 }).withMessage('Description must be at least 1 characters long')
+        .isLength({ max: 100 }).withMessage('Description must be at most 100 characters long'),
+    validateErrors
+]
+
+export const updateCategoryValidator = [
+    body('name')
+        .optional()
+        .notEmpty().withMessage('Name cannot be empty') 
+        .custom(existCategoryNameU),
+
+    body('description')
+        .optional()
+        .notEmpty().withMessage('Description cannot be empty')
+        .isLength({ min: 1 }).withMessage('Description must be at least 1 characters long')
+        .isLength({ max: 100 }).withMessage('Description must be at most 100 characters long'),
+
+    validateErrors
+]
+
+export const categoryIdValidator = [
+    param('id')
+        .custom(validateCategoryId)
+        .notEmpty().withMessage('El ID de categoría es requerido'),
+    validateErrors
+]
+
+export const categoryNameValidator = [
+    param('name')
+        .custom(validateCategoryName),
+    validateErrors
 ]
