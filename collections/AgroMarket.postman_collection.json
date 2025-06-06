@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "f97b120c-b55c-46fe-830c-eafae89780a7",
+		"name": "AgroMarket",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37956967"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "voidpeak1q",
+									"type": "text"
+								},
+								{
+									"key": "name",
+									"value": "Alfredo",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "Lopez",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "88991720",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "San Mateo Villa Nueva Zona 4",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "alfcastellanos231142@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Alfred@88917",
+									"type": "text"
+								},
+								{
+									"key": "cui",
+									"value": "3001012790101",
+									"type": "text"
+								},
+								{
+									"key": "nit",
+									"value": "22335856",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "userLogin",
+									"value": "voidpeak",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "Alfred@88917",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuario",
+			"item": []
+		},
+		{
+			"name": "Productos",
+			"item": []
+		},
+		{
+			"name": "Categoría",
+			"item": []
+		},
+		{
+			"name": "Proveedor",
+			"item": []
+		},
+		{
+			"name": "Publicación",
+			"item": []
+		},
+		{
+			"name": "Comentario",
+			"item": []
+		},
+		{
+			"name": "Carrito",
+			"item": []
+		},
+		{
+			"name": "Factura",
+			"item": []
+		},
+		{
+			"name": "Manejo de Stock",
+			"item": []
+		}
+	]
+}
