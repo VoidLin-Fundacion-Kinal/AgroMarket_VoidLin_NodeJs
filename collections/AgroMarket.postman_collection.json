@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f97b120c-b55c-46fe-830c-eafae89780a7",
+		"_postman_id": "8bf0c793-2ad7-4b8d-b937-fc38299e1636",
 		"name": "AgroMarket",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "37956967"
+		"_exporter_id": "37956984"
 	},
 	"item": [
 		{
@@ -126,7 +126,156 @@
 		},
 		{
 			"name": "Categoría",
-			"item": []
+			"item": [
+				{
+					"name": "Nueva Categoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "AAAAAA",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Hola",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/category/addCategory",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"addCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Categorias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/category/listCategory",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"listCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Categoria por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/category/listCategoryById/68434152c521334ff6e0205a",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"listCategoryById",
+								"68434152c521334ff6e0205a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Por Nombre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/category/listCategoryByName/Default",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"listCategoryByName",
+								"Default"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "aaaa",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/category/updateCategory68434152c521334ff6e0205a",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"updateCategory68434152c521334ff6e0205a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/category/deleteCategory/68434152c521334ff6e0205a",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"deleteCategory",
+								"68434152c521334ff6e0205a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Proveedor",
