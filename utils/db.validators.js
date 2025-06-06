@@ -1,4 +1,7 @@
+import mongoose from 'mongoose'
 import User from '../src/user/user.model.js'
+import Category from '../src/category/category.model.js'
+
 
 export const existUsername = async(username, user, id) =>{
     const alreadyUsername = await User.findOne({username})
@@ -55,3 +58,57 @@ export const notRequiredField = (field)=>{
         throw Error(`${field} is not required`)
     }
 }
+
+export const existCategoryName = async (name) => {
+    if (!name) {
+        throw new Error('Category name is required');
+    }
+
+    const category = await Category.findOne({ name: name.trim() });
+
+    if (category) {
+        throw new Error('The category name already exists');
+    }
+}
+
+
+export const existCategoryNameU = async (name, { req }) => {
+    if (!name) return;
+
+    const category = await Category.findOne({ name: name.trim() });
+
+    if (category && category._id.toString() !== req.params.id) {
+        throw new Error('The category name already exists'); // Lanzar error correctamente
+    }
+}
+
+export const validateCategoryId = async (id) => {
+    if (!id) {
+        throw new Error('Category ID is required');
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new Error('Invalid category ID format');
+    }
+
+    const category = await Category.findById(id);
+    if (!category) {
+        throw new Error('Category not found');
+    }
+    
+    return true;
+}
+
+export const validateCategoryName = async (name) => {
+    if (!name || name.trim() === '') {
+        throw new Error('Category name cannot be empty')
+    }
+    
+    const category = await Category.findOne({ name: name.trim() })
+    if (!category) {
+        throw new Error('Category not found')
+    }
+    
+    return true
+}
+
