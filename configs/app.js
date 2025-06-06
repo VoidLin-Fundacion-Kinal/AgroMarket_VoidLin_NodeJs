@@ -4,6 +4,8 @@ import express from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import cors from 'cors'
+import {limiter} from '../middlewares/rate.limit.js'
+import authRoutes from '../src/auth/auth.routes.js'
 
 
 
@@ -13,11 +15,11 @@ const configs = (app)=>{
     app.use(cors())
     app.use(helmet())
     app.use(morgan('dev'))
+    app.use(limiter)
 }
 
 const routes = (app) => {
-    //Rutas de Autenticación
-   
+    app.use('/v1/auth', authRoutes)
 
 }
 
