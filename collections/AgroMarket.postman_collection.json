@@ -81,6 +81,19 @@
 				},
 				{
 					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody)\r",
+									"postman.setGlobalVariable('token',data.token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -89,7 +102,7 @@
 							"urlencoded": [
 								{
 									"key": "userLogin",
-									"value": "voidpeak",
+									"value": "voidflog",
 									"type": "text"
 								},
 								{
@@ -118,7 +131,141 @@
 		},
 		{
 			"name": "Usuario",
-			"item": []
+			"item": [
+				{
+					"name": "updateUser",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "andrea",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "lopez",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "23242566",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "San Mateo Zona 16 Villa Nueva",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "alopez@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/user/updateUser",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"user",
+								"updateUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "Alfred@88917",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/user/deleteUser",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"user",
+								"deleteUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePassword",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "oldPassword",
+									"value": "Alfred@88917",
+									"type": "text"
+								},
+								{
+									"key": "newPassword",
+									"value": "Alfred@88917.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/user/updatePassword",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"user",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Productos",
@@ -138,7 +285,216 @@
 		},
 		{
 			"name": "Comentario",
-			"item": []
+			"item": [
+				{
+					"name": "Create comment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "description",
+									"value": "Prueba",
+									"type": "text"
+								},
+								{
+									"key": "post",
+									"value": "6843655ef658fedcce6a47e5",
+									"type": "text"
+								},
+								{
+									"key": "user",
+									"value": "68436668f658fedcce6a47ed",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/comment/Comment",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"Comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All comments",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/comment/Comment",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"Comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Comment by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/comment/Commnent/684366dec3c01fe7a73d0ebc",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"Commnent",
+								"684366dec3c01fe7a73d0ebc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Comment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/comment/Comment/684366dec3c01fe7a73d0ebc",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"Comment",
+								"684366dec3c01fe7a73d0ebc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update comment",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "description",
+									"value": "Prueba2",
+									"type": "text"
+								},
+								{
+									"key": "post",
+									"value": "6843655ef658fedcce6a47e5",
+									"type": "text"
+								},
+								{
+									"key": "user",
+									"value": "68436668f658fedcce6a47ed",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/comment/Comment/684366dec3c01fe7a73d0ebc",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"Comment",
+								"684366dec3c01fe7a73d0ebc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get comment by Post",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/comment/Comment/post/6843655ef658fedcce6a47e5",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"Comment",
+								"post",
+								"6843655ef658fedcce6a47e5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get coment by user",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/comment/Comment/user/68436668f658fedcce6a47ed",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"Comment",
+								"user",
+								"68436668f658fedcce6a47ed"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Carrito",
