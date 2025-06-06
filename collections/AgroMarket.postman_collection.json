@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f97b120c-b55c-46fe-830c-eafae89780a7",
+		"_postman_id": "cfea9969-eb25-4242-af83-e313155aba85",
 		"name": "AgroMarket",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "37956967"
+		"_exporter_id": "37951894"
 	},
 	"item": [
 		{
@@ -134,7 +134,205 @@
 		},
 		{
 			"name": "Publicación",
-			"item": []
+			"item": [
+				{
+					"name": "createPost",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "direction",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "user",
+									"value": "68434d664a3187cc9aa0589c",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/post/createPosts",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"post",
+								"createPosts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getPost",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:2003/v1/post/getPosts",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"post",
+								"getPosts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePost",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "adios",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "adios",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "direction",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "user",
+									"value": "68434d664a3187cc9aa0589c",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/post/updatePost/684350d4425b91c02721e5d4",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"post",
+								"updatePost",
+								"684350d4425b91c02721e5d4"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePost",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "image",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "direction",
+									"value": "hola",
+									"type": "text"
+								},
+								{
+									"key": "user",
+									"value": "68434d664a3187cc9aa0589c",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/post/deletePost/684350d4425b91c02721e5d4",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"post",
+								"deletePost",
+								"684350d4425b91c02721e5d4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Comentario",
