@@ -14,7 +14,7 @@ export const register = async (req, res) => {
       password,
       cui,
       nit
-    } = req.body;
+    } = req.body 
 
     const user = new User({
       username,
@@ -25,27 +25,26 @@ export const register = async (req, res) => {
       email,
       password: await encrypt(password),
       role: 'USUARIO',
-      personalData: [
+      personalData: 
         {
           cui,
           nit
         }
-      ]
-    });
+    }) 
 
-    await user.save();
+    await user.save() 
 
     return res.send({
       message: `Registered successfully, can be logged with username: ${user.username}`
-    });
+    }) 
   } catch (error) {
-    console.error(error);
+    console.error(error) 
     return res.status(500).send({
       message: 'General error with user registration',
       error: error.message
-    });
+    }) 
   }
-};
+} 
 
 
 export const login = async(req, res) => {
