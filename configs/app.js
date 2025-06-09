@@ -6,8 +6,15 @@ import helmet from 'helmet'
 import cors from 'cors'
 import {limiter} from '../middlewares/rate.limit.js'
 import authRoutes from '../src/auth/auth.routes.js'
-
-
+import userRoutes from '../src/user/user.routes.js'
+import providerRoutes from '../src/provider/provider.routes.js'
+import categoryRouter from './../src/category/category.routes.js'
+import postRouter from './../src/post/post.routes.js'
+import commentRoutes from './../src/comment/comment.routes.js'
+import productRoutes from './../src/product/product.routes.js'
+import inventoryMoventRoutes from '../src/inventoryMovement/inventoryMovement.routes.js'
+import cartRoutes from '../src/cart/cart.routes.js'
+import billRoutes from './../src/bill/bill.routes.js'
 
 const configs = (app)=>{
     app.use(express.json())
@@ -20,6 +27,16 @@ const configs = (app)=>{
 
 const routes = (app) => {
     app.use('/v1/auth', authRoutes)
+    app.use('/v1/user', userRoutes)
+    app.use('/v1/provider', providerRoutes)
+    app.use('/v1/category',categoryRouter)
+    app.use('/v1/post', postRouter)
+    app.use('/v1/comment', commentRoutes)
+    app.use('/v1/product', productRoutes)
+    app.use('/v1/inventory', inventoryMoventRoutes)
+    app.use('/v1/cart', cartRoutes)
+    app.use('/v1/bill', billRoutes)
+    
 
 }
 
