@@ -1,0 +1,2 @@
+no tiene que generar factura si su total es 0
+o el carrito no tiene producto
