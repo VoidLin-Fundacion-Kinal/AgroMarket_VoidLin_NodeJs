@@ -72,8 +72,7 @@ const userSchema = new Schema(
             default: '../images/profileImages/Avatar-Default.jpg'
         },
 
-        personalData: [
-            {
+        personalData:{
                 cui:{
                     type: String,
                     required: true,
@@ -87,11 +86,7 @@ const userSchema = new Schema(
                     minLength: [5, `NIT must be 5 characters`],
                     maxLength: [10, `Can't be overcome 10 characters`]
                 }
-            }
-        ]
-
-
-
+        }
     }
 )
 
