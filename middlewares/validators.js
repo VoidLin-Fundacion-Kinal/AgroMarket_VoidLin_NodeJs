@@ -3,7 +3,6 @@ import {existUsername, existEmail, existCui, existNit, notRequiredField, existPh
 import { validateErrors, validateErrorsWithoutFiles } from './validate.error.js'
 
 //----------------- Validaciones Usuario -----------------
-
 export const registerValidator= [
 
     body('username', 'Username cannot be empty')
@@ -28,6 +27,10 @@ export const registerValidator= [
     body('email', 'Email cannot be empty')
         .notEmpty()
         .custom(existEmail),
+    
+    body('role', 'Role is not required')
+        .optional()
+        .custom(notRequiredField),
 
     body('password', 'Password cannot be empty')
         .notEmpty()
@@ -45,9 +48,208 @@ export const registerValidator= [
         .notEmpty()
         .isLength({min: 5, max:10})
         .custom(existNit),
+
+    body('isActive', 'isActive is not required')
+        .optional()
+        .custom(notRequiredField),
     
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+    
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
+
     validateErrors
 ]
+
+//Validacion para el soft delete de user
+export const softDeleteUserV = [
+    body('userId', 'User ID is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body ('username', 'Username is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('name', 'Name is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('surname', 'Surname is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('phone', 'Phone is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('address', 'Address is not required')
+        .optional()
+        .custom(notRequiredField), 
+
+    body('email', 'Email is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body ('password', 'Password is  required') 
+        .notEmpty(),
+
+    body('role', 'Role is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('cui', 'CUI is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('nit', 'NIT is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('isActive')
+        .optional()
+        .isBoolean(),
+
+    body('deactivationReason', 'Deactivation reason is  required')
+        .optional()
+        .notEmpty(),
+
+    body('deactivatedAt')
+        .optional(),  
+
+    validateErrors
+]
+
+//Validacion para el  update de user
+export const updateUserV = [
+    body('userId')
+        .notEmpty()
+        .isMongoId()
+        .optional(),
+
+    body('username', 'Username is optional')
+        .notEmpty()
+        .isLength({ min: 3, max: 15 })
+        .withMessage('Username must be between 3 and 15 characters')     
+        .toLowerCase()
+        .optional(),
+
+    body('name', 'Name is optional')
+        .notEmpty()
+        .optional(),
+
+    body('surname', 'Surname is optional')
+        .notEmpty()
+        .optional(),
+
+    body('phone', 'Phone is optional')
+        .notEmpty()
+        .isLength({min:8, max:8})
+        .optional(),
+
+    body('address', 'Address is optional')
+        .notEmpty()
+        .optional(),
+
+    body('email', 'Email is optional')
+        .notEmpty()
+        .optional(),
+
+    body('password', 'Password is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('role', 'Role is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('cui', 'CUI is optional')
+        .notEmpty()
+        .optional(),
+
+    body('nit', 'NIT is optional')
+        .notEmpty()
+        .optional(),
+
+    body('isActive', 'isActive is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    validateErrors
+]
+
+//Validacion para el  update de user password
+export const updateUserPassword = [
+    body('userId')
+        .optional()
+        .custom(notRequiredField),
+
+    body('username', 'Username is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('name', 'Name is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('surname', 'Surname is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('phone', 'Phone is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('address', 'Address is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('email', 'Email is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('password', 'Password is required')
+        .notEmpty()
+        .optional(),
+
+    body('role', 'Role is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('cui', 'CUI is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('nit', 'NIT is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('isActive', 'isActive is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    validateErrors
+]
+
 //----------------- Validaciones Categoria -----------------
 
 
@@ -117,7 +319,17 @@ export const addProviderV = [
     .notEmpty()
     .isLength({min: 5, max: 50}).withMessage('Provider legal representative must be between 5 and 50 characters'),
 
+    body('isActive', 'isActive is not required')
+    .optional() 
+    .custom(notRequiredField),
 
+    body('deactivationReason', 'Deactivation reason is not required')
+    .optional()
+    .custom(notRequiredField),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+    .optional()
+    .custom(notRequiredField),
 
     validateErrors
 ]
@@ -161,9 +373,58 @@ export const updateProviderV = [
     .notEmpty()
     .isLength({min: 5, max: 50}).withMessage('Provider legal representative must be between 5 and 50 characters'),
 
+    body('isActive', 'isActive is not required')
+    .optional() 
+    .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+    .optional()
+    .custom(notRequiredField),
+    
+    body('deactivatedAt', 'Deactivated at is not required')
+    .optional()
+    .custom(notRequiredField),
+
     validateErrors
 ]
+export const softDeleteProviderV = [
+    body('name', 'Provider name is not required')
+    .optional()
+    .custom(notRequiredField),
 
+    body('description', 'Provider description is not required')
+    .optional()
+    .custom(notRequiredField),
+    
+    body('email', 'Provider email  is not required')
+    .optional()
+    .custom(notRequiredField),
+
+    body('typeProduct', 'Provider type product  is not required')
+    .optional()
+    .custom(notRequiredField),
+
+    body('phone', 'Provider phone  is not required')
+    .optional()
+    .custom(notRequiredField),
+
+    body('legalRepresentative', 'Provider legal representative  is not required')
+    .optional()
+    .custom(notRequiredField),
+
+     body('isActive')
+        .optional()
+        .isBoolean(),
+
+    body('deactivationReason', 'Deactivation reason is  required')
+        .optional()
+        .notEmpty(),
+
+    body('deactivatedAt')
+        .optional(),  
+
+    validateErrors
+]
 export const listProviderByNameV = [
     body('provider', 'Provider name cannot be empty')
     .notEmpty()
@@ -377,5 +638,3 @@ export const updateInventoryMovementV = [
 
     validateErrors
 ]
-
-
