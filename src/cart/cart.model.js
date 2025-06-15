@@ -35,6 +35,10 @@ const cartSchema = new Schema (
         createAt: {
             type: Date,
             default: Date.now
+        },
+        isActive: {
+            type: Boolean,
+            default: true
         }
     }
 )
