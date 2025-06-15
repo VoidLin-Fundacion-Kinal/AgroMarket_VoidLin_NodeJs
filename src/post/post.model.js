@@ -72,7 +72,11 @@ const postSchema = new Schema({
                 default: Date.now
             }
         }
-    ]
+    ],
+        isActive: {
+            type: Boolean,
+            default: true
+        }
 
 
 }) 
