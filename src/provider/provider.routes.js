@@ -1,23 +1,23 @@
 import { uploadProviderImages } from "../../utils/multer.js" 
-import { addProvider, deleteProvider, listProvider, listProviderById, listProviderByName, updateProvider, updateProviderLogo } from "./provider.controller.js" 
+import { addProvider, listProvider, listProviderById, listProviderByName, updateProvider, updateProviderLogo, softDeleteProvider} from "./provider.controller.js" 
 import { Router } from "express" 
-import {validateJwt} from './../../middlewares/validate.jwt.js'
-import { addProviderV, listProviderByNameV, updateProviderV } from "../../middlewares/validators.js"
+import {validateJwt, isAdmin} from './../../middlewares/validate.jwt.js'
+import { addProviderV, listProviderByNameV, updateProviderV, softDeleteProviderV } from "../../middlewares/validators.js"
 
 const api = Router()
 
-api.post('/addProvider', validateJwt, uploadProviderImages, addProviderV, addProvider)
+api.post('/addProvider', validateJwt,isAdmin, uploadProviderImages, addProviderV, addProvider)
 
-api.put('/updateProvider/:id', validateJwt, updateProviderV, updateProvider)
+api.put('/updateProvider/:id', validateJwt, isAdmin, updateProviderV, updateProvider)
 
 api.put('/updateProviderLogo/:id', validateJwt, uploadProviderImages, updateProviderLogo )
 
-api.delete('/deleteProvider/:id', validateJwt, deleteProvider)
+api.put('/softDeleteProvider/:id',isAdmin, validateJwt, softDeleteProviderV, softDeleteProvider)
 
-api.get('/listProvider', validateJwt, listProvider)
+api.get('/listProvider', validateJwt,isAdmin, listProvider)
 
-api.get('/listProviderById/:id', validateJwt, listProviderById)
+api.get('/listProviderById/:id', validateJwt, isAdmin, listProviderById)
 
-api.get('/listProviderByName', validateJwt, listProviderByNameV, listProviderByName)
+api.get('/listProviderByName', validateJwt, isAdmin, listProviderByNameV, listProviderByName)
 
 export default api
