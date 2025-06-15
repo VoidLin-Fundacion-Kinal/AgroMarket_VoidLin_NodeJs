@@ -102,42 +102,6 @@ export const existProduct = async(name) => {
 //No se realizan =)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export const findUser = async(id)=>{
     try{
         const userExist = await User.findById(id)
