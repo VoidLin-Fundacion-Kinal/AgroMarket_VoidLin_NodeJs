@@ -12,6 +12,10 @@ const categorySchema = Schema(
             type: String,
             required: [true, 'Description is required'],
             maxLength: [50, `Can't be overcome 50 characters`]
+        },
+        isActive: {
+            type: Boolean,
+            default: true
         }
     },
     {versionKey: false}
