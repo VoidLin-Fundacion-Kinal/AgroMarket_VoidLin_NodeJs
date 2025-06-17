@@ -2,26 +2,34 @@ import {Router} from 'express'
 import {
     addCategory,
     listCategory,
-    deleteCategory,
     updateCategory,
     listCategoryById,
-    listCategoryByName
+    listCategoryByName,
+    listAllCategory,
+    softDeleteCategory
 } from './category.controller.js'
 
 import {
-    validateJwt
+    validateJwt,
+    isAdmin
 } from './../../middlewares/validate.jwt.js'
-import { CategoryRegisterV, CategoryUpdateV, listCategoryByNameV } from '../../middlewares/validators.js'
+import { 
+            CategoryRegisterV, 
+            CategoryUpdateV, 
+            listCategoryByNameV,
+            softDeleteCategoryV
+        } from '../../middlewares/validators.js'
 
 
 
 const api = Router()
 
-api.post('/addCategory', validateJwt, CategoryRegisterV, addCategory)
-api.get('/listCategory', validateJwt, listCategory)
-api.delete('/deleteCategory/:id', validateJwt, deleteCategory)
-api.put('/updateCategory/:id', validateJwt, CategoryUpdateV, updateCategory)
-api.get('/listCategoryById/:id', validateJwt, listCategoryById)
+api.post('/addCategory',validateJwt, isAdmin, CategoryRegisterV, addCategory)
+api.get('/listCategory',validateJwt, isAdmin, listCategory)
+api.put('/updateCategory/:id',validateJwt, isAdmin, CategoryUpdateV, updateCategory)
+api.put('/softDeleteCategory/:id',validateJwt, isAdmin, softDeleteCategoryV, softDeleteCategory)
+api.get('/listCategoryById/:id',validateJwt, listCategoryById)
+api.get('/listAllCategory', validateJwt, isAdmin, listAllCategory)
 api.get('/listCategoryByName', validateJwt, listCategoryByNameV, listCategoryByName)
 
 export default api
