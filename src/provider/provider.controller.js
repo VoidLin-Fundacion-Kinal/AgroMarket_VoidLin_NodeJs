@@ -126,9 +126,27 @@ export const updateProviderLogo = async (req, res) => {
   }
 }
 
+export const listProvider = async (req, res) => {
+  try {
+    const provider = await Provider.find({})
+
+    return res.status(200).send({
+      success: true,
+      message: 'Active Providers Found',
+      Provider: provider
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({
+      success: false,
+      message: 'Internal Error',
+      error
+    })
+  }
+}
 
 //Listar Proveedores
-export const listProvider = async (req, res) => {
+export const listProviderActive = async (req, res) => {
   try {
     const provider = await Provider.find({ isActive: true })
 
@@ -194,42 +212,44 @@ export const listProviderById = async (req, res) => {
 
 //Lista por nombre
 export const listProviderByName = async (req, res) => {
-    try {
-        const providerName = req.body.provider
+  try {
+    const providerName = req.body.provider
 
-        if (!providerName || providerName.trim() === '') {
-            return res.status(400).send({
-                success: false,
-                message: 'Provider name is required'
-            })
-        }
-
-        let providers = await Provider.find({
-            name: { $regex: providerName, $options: 'i' }
-        })
-
-        if (!providers || providers.length === 0) {
-            return res.status(404).send({
-                success: false,
-                message: 'Provider not found'
-            })
-        }
-
-        return res.status(200).send({
-            success: true,
-            message: 'Provider found',
-            providers
-        })
-
-    } catch (error) {
-        console.error(error)
-        return res.status(500).send({
-            success: false,
-            message: 'General Error',
-            err: error
-        })
+    if (!providerName || providerName.trim() === '') {
+      return res.status(400).send({
+        success: false,
+        message: 'Provider name is required'
+      })
     }
+
+    const providers = await Provider.find({
+      name: { $regex: providerName, $options: 'i' },
+      isActive: true
+    })
+
+    if (!providers || providers.length === 0) {
+      return res.status(404).send({
+        success: false,
+        message: 'No active providers found with that name'
+      })
+    }
+
+    return res.status(200).send({
+      success: true,
+      message: 'Active providers found',
+      providers
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({
+      success: false,
+      message: 'General Error',
+      err: error
+    })
+  }
 }
+
+//Soft Delete Provider
 export const softDeleteProvider = async (req, res) => {
     try {
         const { id } = req.params
