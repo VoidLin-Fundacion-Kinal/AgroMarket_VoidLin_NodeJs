@@ -40,7 +40,7 @@ const providerSchema = new Schema(
 
         logo:{
             type: String,
-            default: '../images/profileImages/Avatar-Default.jpg'
+            default: 'images/providerImages/Avatar-Default.jpg'
         },
         isActive: {
             type: Boolean,
