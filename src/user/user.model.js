@@ -69,7 +69,7 @@ const userSchema = new Schema(
 
         profilePhoto: {
             type: String,
-            default: '../images/profileImages/Avatar-Default.jpg'
+            default: 'images/providerImages/Avatar-Default.jpg'
         },
 
         personalData:{
