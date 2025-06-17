@@ -28,24 +28,23 @@ export const validateJwt = async(req, res, next)=>{
         return res.status(401).send({message: 'Invalid credentials'})
     }
 }
-
-export const isAdmin = async(req, res, next)=>{
-    try{
+export const isAdmin = async (req, res, next) => {
+    try {
         const { user } = req
-        if(!user || user.role !== 'ADMINPLATAFORM') return res.status(403).send(
-            {
+
+        if (!user || user.role !== 'ADMINPLATAFORM') {
+            return res.status(403).send({
                 success: false,
-                message: `You don't have access | username ${user.username}`
-            }
-        )
+                message: `You don't have access${user?.username ? ' | username ' + user.username : ''}`
+            })
+        }
+
         next()
-    }catch(err){
+    } catch (err) {
         console.error(err)
-        return res.status(403).send(
-            {
-                success: false,
-                message: 'Error with authorization'
-            }
-        )
+        return res.status(403).send({
+            success: false,
+            message: 'Error with authorization'
+        })
     }
 }
