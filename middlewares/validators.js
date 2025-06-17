@@ -109,17 +109,19 @@ export const softDeleteUserV = [
         .optional()
         .custom(notRequiredField),
 
-    body('isActive')
+     body('isActive', 'isActive is not  required')
+        .optional() 
+        .custom(notRequiredField),
+
+     body('deactivationReason', 'Deactivation reason is  required')
         .optional()
-        .isBoolean(),
+        .notEmpty()
+        .isLength({ min: 10, max: 500 }).withMessage('Deactivation Reason must be between 10 and 500 characters'),
 
-    body('deactivationReason', 'Deactivation reason is  required')
+    body('deactivatedAt', 'Deactivated at is  not required')
         .optional()
-        .notEmpty(),
-
-    body('deactivatedAt')
-        .optional(),  
-
+        .custom(notRequiredField),
+        
     validateErrors
 ]
 
@@ -263,6 +265,18 @@ export const CategoryRegisterV = [
     body('description', 'Category description cannot be empty')
         .notEmpty()
         .isLength({min:10, max:100}).withMessage('Category description must be between 10 and 100 characters'),
+    
+    body('isActive', 'isActive is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
     validateErrors
 ]
 
@@ -276,7 +290,45 @@ export const CategoryUpdateV = [
     body('description', 'Category description cannot be empty')
         .optional()
         .isLength({min:3, max:100}).withMessage('Category description must be between 10 and 100 characters'),
+
+    body('isActive', 'isActive is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
     validateErrorsWithoutFiles
+
+]
+export const softDeleteCategoryV = [
+     body('name', 'Category name is not required')
+        .optional()
+        .custom(notRequiredField),
+    
+    body('description', 'Category description is not required')
+        .optional()
+        .custom(notRequiredField),
+    
+    body('isActive', 'isActive is not  required')
+        .optional() 
+        .custom(notRequiredField),
+
+     body('deactivationReason', 'Deactivation reason is  required')
+        .optional()
+        .notEmpty()
+        .isLength({ min: 10, max: 500 }).withMessage('Deactivation Reason must be between 10 and 500 characters'),
+
+    body('deactivatedAt', 'Deactivated at is  not required')
+        .optional()
+        .custom(notRequiredField),
+        
+    validateErrors
+
 ]
 
 export const listCategoryByNameV = [
@@ -412,17 +464,19 @@ export const softDeleteProviderV = [
     .optional()
     .custom(notRequiredField),
 
-     body('isActive')
+    body('isActive', 'isActive is not  required')
+        .optional() 
+        .custom(notRequiredField),
+
+     body('deactivationReason', 'Deactivation reason is  required')
         .optional()
-        .isBoolean(),
+        .notEmpty()
+        .isLength({ min: 10, max: 500 }).withMessage('Deactivation Reason must be between 10 and 500 characters'),
 
-    body('deactivationReason', 'Deactivation reason is  required')
+    body('deactivatedAt', 'Deactivated at is  not required')
         .optional()
-        .notEmpty(),
-
-    body('deactivatedAt')
-        .optional(),  
-
+        .custom(notRequiredField),
+        
     validateErrors
 ]
 export const listProviderByNameV = [
@@ -468,6 +522,18 @@ export const addProductV = [
         .notEmpty()
         .trim()
         .custom(isValidObjectId),
+    
+    body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+    
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
 
     validateErrors
 ]
@@ -500,7 +566,51 @@ export const updatedProductV = [
         .notEmpty()
         .isLength({ min: 1, max: 10 }).withMessage('Product weight must be between 1 and 10 characters'),
 
+    body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
     
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    validateErrors
+]
+
+export const softDeleteProductV = [
+    body('name', 'Product name cannot be empty')
+         .optional()
+         .custom(notRequiredField),
+
+    body('description', 'Product description cannot be empty')
+        .optional()
+        .custom(notRequiredField),
+
+    body('price', 'Product price cannot be empty')
+        .optional()
+        .custom(notRequiredField),
+
+    body('weigth', 'Product weight cannot be empty')
+        .optional()
+        .custom(notRequiredField),
+
+    body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .notEmpty()
+        .isLength({ min: 10, max: 500 }).withMessage('Deactivation Reason must be between 10 and 500 characters'),
+
+    
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
 
     validateErrors
 ]
@@ -547,6 +657,7 @@ export const deleteProductCartV = [
 
 //----------------- Validaciones Publicaciones -----------------
 export const addPostV = [
+    
     body('title', 'Title cannot be empty')
         .notEmpty()
         .trim()
@@ -561,6 +672,18 @@ export const addPostV = [
         .notEmpty()
         .trim()
         .isLength({ min: 5, max: 75 }).withMessage('Address must be between 5 and 75 characters'),
+    
+    body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
 
     validateErrors
 ]
@@ -584,7 +707,48 @@ export const updatePostV = [
         .trim()
         .isLength({ min: 5, max: 75 }).withMessage('Address must be between 5 and 75 characters'),
 
+     body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
+
     validateErrors
+]
+export const softDeletePostV = [
+    body('title', 'Title cannot be empty')
+        .optional()
+        .custom(notRequiredField),
+
+    body('description', 'Description cannot be empty')
+        .optional()
+        .custom(notRequiredField),
+
+    body('address', 'Address cannot be empty')
+        .optional()
+        .custom(notRequiredField),
+
+     body('isActive', 'isActive is not  required')
+        .optional() 
+        .custom(notRequiredField),
+
+     body('deactivationReason', 'Deactivation reason is  required')
+        .optional()
+        .notEmpty()
+        .isLength({ min: 10, max: 500 }).withMessage('Description must be between 10 and 500 characters'),
+
+    body('deactivatedAt', 'Deactivated at is  not required')
+        .optional()
+        .custom(notRequiredField),
+        
+    validateErrors
+        
 ]
 
 //----------------- Validaciones Comentario -----------------
@@ -593,7 +757,9 @@ export const addCommentV = [
         .notEmpty()
         .trim()
         .isLength({ min: 5, max: 75 }).withMessage('Comment must be between 5 and 75 characters'),
-    
+      body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
     validateErrors
 ]
 
@@ -602,7 +768,19 @@ export const updateCommentV = [
         .notEmpty()
         .trim()
         .isLength({ min: 5, max: 75 }).withMessage('Comment must be between 5 and 75 characters'),
-    
+      body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
+    validateErrors
+]
+export const softComentV = [
+    body('comment', 'Comment cannot be empty')
+        .optional() 
+        .custom(notRequiredField),
+     body('isActive', 'isActive is not  required')
+        .optional() 
+        .custom(notRequiredField),
+        
     validateErrors
 ]
 
