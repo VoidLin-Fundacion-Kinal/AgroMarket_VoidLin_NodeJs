@@ -32,6 +32,7 @@ export const addProduct = async (req, res) => {
             )
         }
 
+
         let categoryData = await Category.findById(category)
         if (!categoryData) {
             return res.status(404).send(
@@ -175,44 +176,50 @@ export const updateProductImage = async (req, res) => {
     }
 } 
 
-
-export const deleteProduct = async (req, res) => {
+export const listProductActive = async (req, res) => {
   try {
-    const { id } = req.params
-    const product = await Product.findById(id)
-
-    if (!product) {
-      return res.status(404).send({
-        success: false,
-        message: 'Product not found'
+    const { limit = 20, skip = 0 } = req.query 
+    
+            
+    const products = await Product.find({isActive: true })
+      .populate({
+        path: 'provider',
+        select: '-__v -createdAt -updatedAt' // Oculta campos innecesarios
       })
+      .populate({
+        path: 'category',
+        select: '-__v -createdAt -updatedAt'
+      })
+      .limit(Number(limit))
+      .skip(Number(skip)) 
+      
+    if(!products || products.length == 0){
+                return res.status(404).send(
+                    {
+                        success: false,
+                        message: 'products not found.'
+                    }
+                )
+            }
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Products not found'
+      }) 
     }
 
-    if (product.image) {
-      const imagePath = path.join('C:/IN6AV/TALLER/GITDESK/AgroMarket_VoidLin_NodeJs/images/productsImages', product.image)
-
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath)
-        console.log('Imagen eliminada correctamente')
-      } else {
-        console.log('Imagen no encontrada físicamente:', product.image)
-      }
-    }
-
-    await Product.findByIdAndDelete(id)
-
-    return res.status(200).send({
+    return res.status(200).json({
       success: true,
-      message: 'Product deleted successfully'
-    })
+      message: 'Products list',
+      products
+    }) 
 
   } catch (error) {
-    console.error(error)
-    return res.status(500).send({
+    console.error(error) 
+    return res.status(500).json({
       success: false,
-      message: 'Internal error',
-      error
-    })
+      message: 'Internal Server Error'
+    }) 
   }
 }
 
@@ -252,7 +259,7 @@ export const listProduct = async (req, res) => {
       message: 'Internal Server Error'
     }) 
   }
-} 
+}  
 
 export const listProductById = async (req, res) => {
   try {
@@ -278,6 +285,12 @@ export const listProductById = async (req, res) => {
       }) 
     }
 
+    if (!products.isActive) {
+        return res.status(403).send({
+            success: false,
+            message: 'The Product is deactivated'
+        })
+        }
     return res.status(200).json({
       success: true,
       message: 'Products list',
@@ -297,7 +310,7 @@ export const listProductsAZ = async (req, res) => {
   try {
     const { limit = 20, skip = 0 } = req.query 
 
-    const products = await Product.find()
+    const products = await Product.find({isActive: true })
       .sort({name: 1})
       .populate({
         path: 'provider',
@@ -309,6 +322,7 @@ export const listProductsAZ = async (req, res) => {
       })
       .limit(Number(limit))
       .skip(Number(skip)) 
+
 
     if (!products || products.length === 0) {
       return res.status(404).json({
@@ -336,7 +350,7 @@ export const listProductsZA = async (req, res) => {
   try {
     const { limit = 20, skip = 0 } = req.query 
 
-    const products = await Product.find()
+    const products = await Product.find({isActive: true })
       .sort({name: -1})
       .populate({
         path: 'provider',
@@ -375,7 +389,7 @@ export const listProductsPriceHigh = async (req, res) => {
   try {
     const { limit = 20, skip = 0 } = req.query 
 
-    const products = await Product.find()
+    const products = await Product.find({isActive: true })
       .sort({price: -1})
       .populate({
         path: 'provider',
@@ -414,7 +428,7 @@ export const listProductsPriceLow = async (req, res) => {
   try {
     const { limit = 20, skip = 0 } = req.query 
 
-    const products = await Product.find()
+    const products = await Product.find({isActive: true })
       .sort({price: 1})
       .populate({
         path: 'provider',
@@ -455,7 +469,7 @@ export const listProductsProvider = async (req, res) => {
     const { limit = 20, skip = 0 } = req.query 
     const {id} = req.params
 
-    const products = await Product.find({provider: id})
+    const products = await Product.find({provider: id, isActive: true })
       .populate({
         path: 'provider',
         select: '-__v -createdAt -updatedAt' 
@@ -488,3 +502,43 @@ export const listProductsProvider = async (req, res) => {
     }) 
   }
 } 
+
+//Soft Delete Product
+export const softDeleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params
+        const { deactivationReason } = req.body
+
+        const product = await Product.findById(id)
+
+            if (!product) {
+            return res.status(404).send(
+                {
+                success: false,
+                message: 'Product not found'
+                }
+            )
+    }
+
+        product.isActive = false
+        product.deactivationReason = deactivationReason || 'No reason provided'
+        product.deactivatedAt = new Date()
+
+        await product.save()
+
+        return res.status(200).send(
+            {
+                success: true,
+                message: 'product soft deleted successfully',
+                product
+            }
+        )
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({
+        success: false,
+        message: 'Internal Server Error',
+        error
+        })
+    }
+}
