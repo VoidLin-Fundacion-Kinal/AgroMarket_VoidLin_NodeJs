@@ -37,7 +37,40 @@ export const updateUser = async (req, res) => {
         })
     }
 }
+export const listUserById = async (req, res) => {
+  try {
+    let { id } = req.params
 
+    const user = await User.findById(id)
+
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: 'Could not find User'
+      })
+    }
+
+    if (!user.isActive) {
+      return res.status(403).send({
+        success: false,
+        message: 'This User is deactivated'
+      })
+    }
+
+    return res.status(200).send({
+      success: true,
+      message: 'User Found',
+      User: user
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({
+      success: false,
+      message: 'General Error',
+      error
+    })
+  }
+}
 
 //Update Password
 export const updatePassword = async (req, res) => {
