@@ -3,6 +3,7 @@ import {
     addPost,
     listPost,
     listPostById,
+    listPostsUser,
     listPostActive,
     updatePost,
     softDeletePost
@@ -27,6 +28,7 @@ api.post('/addPost', validateJwt, uploadPostImages, addPostV, addPost)
 api.put('/updatePost/:id', validateJwt, updatePostV, updatePost)
 api.put('/softDeletePost/:id', validateJwt, isAdmin, softDeletePostV, softDeletePost)
 api.get('/listPost', validateJwt, isAdmin, listPost)
+api.get('/listPostsUser/:id', validateJwt, listPostsUser)
 api.get('/listPostById/:id', validateJwt, listPostById)
 api.get('/listPostActive', listPostActive)
 
