@@ -28,6 +28,6 @@ api.put('/updatePost/:id', validateJwt, updatePostV, updatePost)
 api.put('/softDeletePost/:id', validateJwt, isAdmin, softDeletePostV, softDeletePost)
 api.get('/listPost', validateJwt, isAdmin, listPost)
 api.get('/listPostById/:id', validateJwt, listPostById)
-api.get('/listPostActive', validateJwt, listPostActive)
+api.get('/listPostActive', listPostActive)
 
 export default api
