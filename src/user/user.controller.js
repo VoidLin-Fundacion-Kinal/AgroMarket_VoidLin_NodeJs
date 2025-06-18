@@ -61,7 +61,7 @@ export const listUserById = async (req, res) => {
     return res.status(200).send({
       success: true,
       message: 'User Found',
-      User: user
+      user
     })
   } catch (error) {
     console.error(error)
