@@ -218,7 +218,7 @@ export const updateUserV = [
 ]
 
 //Validacion para el  update de user password
-export const updateUserPassword = [
+export const updateUserPasswordV = [
     body('userId')
         .optional()
         .custom(notRequiredField),
@@ -247,7 +247,10 @@ export const updateUserPassword = [
         .optional()
         .custom(notRequiredField),
 
-    body('password', 'Password is required')
+    body('oldPassword', 'oldPassword is required')
+        .notEmpty(),
+    
+    body('newPassword', 'oldPassword is required')
         .notEmpty(),
 
     body('role', 'Role is not required')
