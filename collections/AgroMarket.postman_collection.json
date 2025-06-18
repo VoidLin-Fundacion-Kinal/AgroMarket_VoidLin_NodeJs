@@ -2041,9 +2041,46 @@
 					"response": []
 				},
 				{
-					"name": "deleteInventoryMovement",
+					"name": "softDelete",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "deactivationReason",
+									"value": "Por mis huevos",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/inventory/softDeleteInventoryMovement/685235f118a3594bb0d36e55",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"inventory",
+								"softDeleteInventoryMovement",
+								"685235f118a3594bb0d36e55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listInventoryMovement",
+					"request": {
+						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
@@ -2052,7 +2089,7 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:2003/v1/inventory/deleteInventoryMovement/68451c8ea85d4c6597260f75",
+							"raw": "localhost:2003/v1/inventory/listInventoryMovement/",
 							"host": [
 								"localhost"
 							],
@@ -2060,15 +2097,15 @@
 							"path": [
 								"v1",
 								"inventory",
-								"deleteInventoryMovement",
-								"68451c8ea85d4c6597260f75"
+								"listInventoryMovement",
+								""
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "listInventoryMovement",
+					"name": "listInventoryMovementActive",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2351,6 +2388,68 @@
 								"v1",
 								"cart",
 								"clearCart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "softDeleteCart",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/cart/softDeleteCart/68523fdf13effee28a319683",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"cart",
+								"softDeleteCart",
+								"68523fdf13effee28a319683"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "softDeleteCart Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/cart/softDeleteCart/68523fdf13effee28a319683",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"cart",
+								"softDeleteCart",
+								"68523fdf13effee28a319683"
 							]
 						}
 					},
