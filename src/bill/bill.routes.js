@@ -9,7 +9,8 @@ import {
 } from './bill.controller.js'
 
 import {
-    validateJwt
+    validateJwt, 
+    isAdmin
 } from './../../middlewares/validate.jwt.js'
 
 const api = Router()
@@ -18,7 +19,7 @@ api.get('/addBill', validateJwt, addBill)
 api.get('/updateBillCancelled/:billId', validateJwt, updateBillCancelled)
 api.get('/getBillsByUserId', validateJwt, getBillsByUserId)
 api.get('/getBillById/:billId', validateJwt, getBillById)
-api.get('/getAllBills', validateJwt, getAllBills)
+api.get('/getAllBills', validateJwt, isAdmin, getAllBills)
 
 
 export default api 
