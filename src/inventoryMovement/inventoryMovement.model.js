@@ -21,6 +21,18 @@ const inventoryMovementSchema = new Schema(
             type: String, 
             required: true,
             enum: ['entry','exit' ]
+        },
+        isActive: {
+            type: Boolean,
+            default: true
+        },
+        deactivationReason: {
+            type: String,
+            default: null
+        },
+        deactivatedAt: {
+            type: Date,
+            default: null
         }
     }
 )

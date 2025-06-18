@@ -68,6 +68,13 @@ export const updatePost = async (req, res) => {
 
         let postData = await Post.findById(id)
 
+        if (!postData.isActive) {
+            return res.status(403).send({
+                success: false,
+                message: 'Cannot update a deactivated post'
+            })
+        }
+
         if (!postData) {
             return res.status(404).send(
                 {
@@ -102,54 +109,7 @@ export const updatePost = async (req, res) => {
     }
 }
 
-export const deletePost = async (req, res) => {
-    try {
-        let { id } = req.params
-        let post = await Post.findById(id)
-
-        if (!post) {
-            return res.status(400).send(
-                {
-                    success: false,
-                    message: 'Post not Found:'
-                }
-            )
-        }
-
-        if (post.images && post.images.length > 0) {
-            post.images.forEach(imageName => {
-                const imagePath = path.join('C:/IN6AV/TALLER/GITDESK/AgroMarket_VoidLin_NodeJs/images/postImages', imageName)
-                
-                if (fs.existsSync(imagePath)) {
-                    fs.unlinkSync(imagePath)
-                    console.log(`Imagen eliminada correctamente: ${imageName}`)
-                } else {
-                    console.log(`Imagen no encontrada físicamente: ${imageName}`)
-                }
-            })
-        }
-
-        await Post.findByIdAndDelete(id)
-
-        return res.status(200).send(
-            {
-                success: true,
-                message: 'Post deleted successfully',
-
-            }
-        )
-    } catch (error) {
-        console.error(error)
-        return res.status(500).send(
-            {
-                success: false,
-                message: 'Internal Error'
-            }
-        )
-
-    }
-}
-
+ 
 export const listPost = async (req, res) => {
     try {
         const { limit = 20, skip = 0 } = req.query
@@ -157,8 +117,12 @@ export const listPost = async (req, res) => {
             {
                 path: 'user',
                 select: 'name username surname address email cui nit'
-            }
-        ).skip(skip).limit(limit)
+            })
+            .populate({
+                path: 'comments.user',
+                select: 'name surname'
+            })
+            .skip(skip).limit(limit)
 
         if (!post || post.length == 0) {
             return res.statu(404).send(
@@ -189,43 +153,135 @@ export const listPost = async (req, res) => {
 }
 
 export const listPostById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const dataPost = await Post.findById(id)
+      .populate({
+        path: 'user',
+        select: 'name username surname address email cui nit'
+      })
+      .populate({
+                path: 'comments.user',
+                select: 'name surname'
+            })
+      .lean()
+
+    if (!dataPost) {
+      return res.status(404).send({
+        success: false,
+        message: 'Post not Found:'
+      })
+    }
+
+    if (!dataPost.isActive) {
+      return res.status(403).send({
+        success: false,
+        message: 'This post is deactivated'
+      })
+    }
+
+    // Filtrar comentarios activos
+    dataPost.comments = dataPost.comments?.filter(comment => comment.isActive !== false)
+
+    return res.status(200).send({
+      success: true,
+      message: 'Post found:',
+      dataPost
+    })
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({
+      success: false,
+      message: 'Internal Error',
+      error: error.message
+    })
+  }
+}
+
+
+//// Soft Delete Post
+export const softDeletePost = async (req, res) => {
     try {
         const { id } = req.params
-        const dataPost = await Post.findById(id).populate(
-            {
-                path: 'user',
-                select: 'name username surname address email cui nit'
-            }
-        )
+        const { deactivationReason } = req.body
 
-        if (!dataPost) {
+        const post = await Post.findById(id)
+
+            if (!post) {
             return res.status(404).send(
                 {
-                    success: false,
-                    message: 'Post not Found:'
+                success: false,
+                message: 'Post not found'
                 }
             )
-        }
+    }
+
+        post.isActive = false
+        post.deactivationReason = deactivationReason || 'No reason provided'
+        post.deactivatedAt = new Date()
+
+        await post.save()
 
         return res.status(200).send(
             {
                 success: true,
-                message: 'Post found: ',
-                dataPost
+                message: 'Post soft deleted successfully',
+                post
             }
         )
-
     } catch (error) {
         console.error(error)
-        return res.status(500).send(
-            {
-                success: false,
-                message: 'Internal Error'
-            }
-        )
-
+        return res.status(500).send({
+        success: false,
+        message: 'Internal Server Error',
+        error
+        })
     }
 }
 
+export const listPostActive = async (req, res) => {
+    try {
+        const { limit = 20, skip = 0 } = req.query
 
+        const posts = await Post.find({ isActive: true })
+            .populate({
+            path: 'user',
+            select: 'name username surname address email cui nit'
+        })
+        .populate({
+                path: 'comments.user',
+                select: 'name surname'
+            })
+        
+            .skip(skip)
+            .limit(limit)
+            .lean()
 
+            if (!posts || posts.length === 0) {
+                    return res.status(404).send({
+                    success: false,
+                    message: 'No active posts found'
+                })
+            }
+
+            const filteredPosts = posts.map(post => {
+                post.comments = post.comments?.filter(comment => comment.isActive !== false)
+                return post
+            })
+
+            return res.status(200).send({
+                success: true,
+                message: 'Active posts with visible comments',
+                posts: filteredPosts
+            })
+        } catch (error) {
+        console.error(error)
+            return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error',
+            error: error.message
+        })
+    }
+}

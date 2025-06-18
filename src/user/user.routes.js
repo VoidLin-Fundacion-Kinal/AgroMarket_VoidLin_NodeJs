@@ -3,17 +3,27 @@ import {Router} from 'express'
 import {
     updateUser,
     updatePassword,
-    deleteUser
+    softDeleteUser, 
+    getAllUser,
+    getAllActiveUsers
 } from './user.controller.js'
 
 import {
-    validateJwt
+    validateJwt,
+    isAdmin
 } from './../../middlewares/validate.jwt.js'
 
+import {
+        softDeleteUserV,
+        updateUserV,
+        updateUserPassword
+} from './../../middlewares/validators.js'
 const api = Router()
 
-api.put('/updateUser', validateJwt, updateUser)
-api.put('/updatePassword', validateJwt, updatePassword)
-api.delete('/deleteUser', validateJwt, deleteUser)
+api.put('/updateUser', validateJwt, updateUserV, updateUser)
+api.put('/updatePassword', updateUserPassword, validateJwt, updatePassword)
+api.put('/softDeleteUser', validateJwt, softDeleteUserV, softDeleteUser)
+api.get('/getAllUser', validateJwt, isAdmin, getAllUser)
+api.get('/getAllActiveUsers', validateJwt, isAdmin, getAllActiveUsers)
 
 export default api

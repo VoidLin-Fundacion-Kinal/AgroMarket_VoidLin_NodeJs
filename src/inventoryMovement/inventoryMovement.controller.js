@@ -1,37 +1,36 @@
 import InventoryMovement from './inventoryMovement.model.js'
 import Product from '../product/product.model.js'
 
-
-
 export const addInventoryMovement = async (req, res) => {
     try {
-
         const {
             product,
             amount,
             inputType
-        } = req.body
+        } = req.body;
 
         const productData = await Product.findById(product)
         const amountNaN = Number(amount)
 
         if (!productData) {
-            return res.status(404).send(
-                {
-                    success: false,
-                    message: 'Product not found:'
-                }
-            )
+            return res.status(404).send({
+                success: false,
+                message: 'Product not found'
+            })
         }
 
         if (inputType === 'exit') {
             if (productData.stock <= 0) {
-                return res.status(404).send(
-                    {
-                        success: false,
-                        message: 'Insufficient stock for exit movement'
-                    }
-                )
+                return res.status(400).send({
+                    success: false,
+                    message: 'Insufficient stock for exit movement (stock is zero)'
+                })
+            }
+            if (amountNaN > productData.stock) {
+                return res.status(400).send({
+                    success: false,
+                    message: 'Insufficient stock for exit movement (amount exceeds available stock)'
+                })
             }
             productData.stock -= amountNaN
         } else {
@@ -40,34 +39,27 @@ export const addInventoryMovement = async (req, res) => {
 
         await productData.save()
 
-        const movement = new InventoryMovement(
-            {
-                product,
-                amount,
-                inputType
-            }
-        )
+        const movement = new InventoryMovement({
+            product,
+            amount,
+            inputType
+        })
 
         await movement.save()
 
-        return res.status(200).send(
-            {
-                success: true,
-                message: 'Inventory movement registered',
-                product: productData,
-                movement
-            }
-        )
+        return res.status(200).send({
+            success: true,
+            message: 'Inventory movement registered',
+            product: productData,
+            movement
+        })
 
     } catch (error) {
-        console.error(error)
-        return res.status(500).send(
-            {
-                success: false,
-                menssage: 'Internal Error'
-            }
-        )
-
+        console.error(error);
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Error'
+        })
     }
 }
 
@@ -92,6 +84,12 @@ export const updateInventoryMovement = async (req, res) => {
                 }
             )
         }
+        if (!movement.isActive) {
+            return res.status(403).send({
+                success: false,
+                message: 'This Inventory Movement is deactivated'
+            })
+    }
 
         let productSaved = await Product.findById(movement.product)
 
@@ -157,52 +155,42 @@ export const updateInventoryMovement = async (req, res) => {
 
 }
 
-export const deleteInventoryMovement = async (req, res) => {
+export const softDeleteInventoryMovement = async (req, res) => {
     try {
         const { id } = req.params
+        const { deactivationReason } = req.body
 
-        const inventoryData = await InventoryMovement.findById(id)
-        console.log(id) 
+        const movement = await InventoryMovement.findById(id)
 
-
-        if (!inventoryData) {
+            if (!movement) {
             return res.status(404).send(
                 {
-                    success: false,
-                    message: 'Inventory not found'
+                success: false,
+                message: 'Inventory Movement not found'
                 }
             )
-        }
-        const productData = await Product.findById(inventoryData.product)
+    }
 
+        movement.isActive = false
+        movement.deactivationReason = deactivationReason || 'No reason provided'
+        movement.deactivatedAt = new Date()
 
-        if (inventoryData.inputType === 'entry') {
-            productData.stock -= inventoryData.amount 
-        } else if (inventoryData.inputType === 'exit') {
-            productData.stock += inventoryData.amount 
-        }
-
-        await productData.save()
-
-        await InventoryMovement.findByIdAndDelete(id)
-
+        await movement.save()
 
         return res.status(200).send(
             {
                 success: true,
-                message: 'Deleted inventory'
+                message: 'Inventory Movement soft deleted successfully',
+                movement
             }
         )
-
     } catch (error) {
-        console.error(error) 
-        return res.status(500).send(
-            {
-                success: false,
-                message: 'Internal Error.'
-            }
-        )
-
+        console.error(error)
+        return res.status(500).send({
+        success: false,
+        message: 'Internal Server Error',
+        error
+        })
     }
 }
 
@@ -259,6 +247,55 @@ export const listInventoryMovementById = async (req, res) => {
 
         let inventoryMovement = await InventoryMovement
             .findById(id)
+            .populate(
+                {
+                    path: 'product',
+                    select: '-__v -createdAt -updatedAt'
+                }
+            )
+            .limit(limit)
+            .skip(skip)
+
+        if (!inventoryMovement || inventoryMovement.length == 0) {
+            return res.status(404).send(
+                {
+                    success: false,
+                    message: 'Inventory not found:'
+                }
+            )
+        }
+        if (!inventoryMovement.isActive) {
+      return res.status(403).send({
+        success: false,
+        message: 'This Inventory Movement is deactivated'
+      })
+    }
+
+        return res.status(200).send(
+            {
+                success: true,
+                message: 'Inventory Found: ',
+                inventory: inventoryMovement
+            }
+        )
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send(
+            {
+                success: false,
+                message: 'Internal Error'
+            }
+        )
+
+    }
+}
+
+export const listInventoryMovementActive = async (req, res) => {
+    try {
+        const { limit = 20, skip = 0 } = req.query 
+        let inventoryMovement = await InventoryMovement
+            .find({ isActive: true })
             .populate(
                 {
                     path: 'product',

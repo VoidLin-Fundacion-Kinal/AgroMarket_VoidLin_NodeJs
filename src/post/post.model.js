@@ -35,7 +35,8 @@ const postSchema = new Schema({
 
     images: [
         {
-            type: String
+            type: String,
+            default: ['images/providerImages/Avatar-Default.jpg']
         }
     ],
 
@@ -70,10 +71,25 @@ const postSchema = new Schema({
             date:{
                 type: Date,
                 default: Date.now
-            }
+            },
+            isActive: {
+            type: Boolean,
+            default: true
         }
-    ]
-
+        }
+    ],
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+    deactivationReason: {
+        type: String,
+        default: null
+    },
+    deactivatedAt: {
+        type: Date,
+        default: null
+    }
 
 }) 
 

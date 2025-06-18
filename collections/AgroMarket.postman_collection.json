@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "f97b120c-b55c-46fe-830c-eafae89780a7",
+		"_postman_id": "17258d77-0f1a-4e75-b84d-49457075605e",
 		"name": "AgroMarket",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "37956967"
+		"_exporter_id": "37956963"
 	},
 	"item": [
 		{
@@ -19,7 +19,7 @@
 							"urlencoded": [
 								{
 									"key": "username",
-									"value": "voidpeak1q",
+									"value": "VoidCreak",
 									"type": "text"
 								},
 								{
@@ -34,7 +34,7 @@
 								},
 								{
 									"key": "phone",
-									"value": "88991720",
+									"value": "88991721",
 									"type": "text"
 								},
 								{
@@ -44,7 +44,7 @@
 								},
 								{
 									"key": "email",
-									"value": "alfcastellanos231142@gmail.com",
+									"value": "alfcastellanos@gmail.com",
 									"type": "text"
 								},
 								{
@@ -54,12 +54,12 @@
 								},
 								{
 									"key": "cui",
-									"value": "3001012790101",
+									"value": "3002012790101",
 									"type": "text"
 								},
 								{
 									"key": "nit",
-									"value": "22335856",
+									"value": "22335854",
 									"type": "text"
 								}
 							]
@@ -81,6 +81,19 @@
 				},
 				{
 					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody)\r",
+									"postman.setGlobalVariable('token',data.token)"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -89,7 +102,7 @@
 							"urlencoded": [
 								{
 									"key": "userLogin",
-									"value": "voidpeak",
+									"value": "rlopez",
 									"type": "text"
 								},
 								{
@@ -118,39 +131,2371 @@
 		},
 		{
 			"name": "Usuario",
-			"item": []
-		},
-		{
-			"name": "Productos",
-			"item": []
-		},
-		{
-			"name": "Categoría",
-			"item": []
+			"item": [
+				{
+					"name": "updateUser",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "andrea",
+									"type": "text"
+								},
+								{
+									"key": "surname",
+									"value": "lopez",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "23242566",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "San Mateo Zona 16 Villa Nueva",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "alopez@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/user/updateUser",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"user",
+								"updateUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "Alfred@88917",
+									"type": "text"
+								},
+								{
+									"key": "isActive",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "deactivationReason",
+									"value": "Por mis huevosAAA",
+									"type": "text"
+								},
+								{
+									"key": "deactivatedAt",
+									"value": "2025-08-02",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/user/softDeleteUser",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"user",
+								"softDeleteUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePassword",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "oldPassword",
+									"value": "Alfred@88917",
+									"type": "text"
+								},
+								{
+									"key": "newPassword",
+									"value": "Alfred@88917.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/user/updatePassword",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"user",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "Alfred@88917",
+									"type": "text"
+								},
+								{
+									"key": "isActive",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "deactivationReason",
+									"value": "Por mis huevosAAA",
+									"type": "text"
+								},
+								{
+									"key": "deactivatedAt",
+									"value": "2025-08-02",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/user/getAllUser",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"user",
+								"getAllUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllActiveUsers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "Alfred@88917",
+									"type": "text"
+								},
+								{
+									"key": "isActive",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "deactivationReason",
+									"value": "Por mis huevosAAA",
+									"type": "text"
+								},
+								{
+									"key": "deactivatedAt",
+									"value": "2025-08-02",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/user/getAllUser",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"user",
+								"getAllUser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Proveedor",
-			"item": []
+			"item": [
+				{
+					"name": "addProvider",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Pesticidas_S.A",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Empresa abastecedora de pesticida de pajaros",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "pedidos@pajero.com",
+									"type": "text"
+								},
+								{
+									"key": "typeProduct",
+									"value": "Pesticidas",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "66748976",
+									"type": "text"
+								},
+								{
+									"key": "legalRepresentative",
+									"value": "Diego Antonio",
+									"type": "text"
+								},
+								{
+									"key": "providerLogo",
+									"type": "file",
+									"src": "/C:/Users/Alfredo Lopez/Downloads/Avatar-Default.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/provider/addProvider",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"provider",
+								"addProvider"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProvider",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "PajeroGTA",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Empresa abastecedora de pesticida de pajaros",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "pedidos@pajero.com",
+									"type": "text"
+								},
+								{
+									"key": "typeProduct",
+									"value": "Pesticidas",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "65748312",
+									"type": "text"
+								},
+								{
+									"key": "legalRepresentative",
+									"value": "Alfredo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/provider/updateProvider/68465d198eaafad3f4cdcbf2",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"provider",
+								"updateProvider",
+								"68465d198eaafad3f4cdcbf2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "soft delete",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "PajeroGTA",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Empresa abastecedora de pesticida de pajaros",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "pedidos@pajero.com",
+									"type": "text"
+								},
+								{
+									"key": "typeProduct",
+									"value": "Pesticidas",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "65748312",
+									"type": "text"
+								},
+								{
+									"key": "legalRepresentative",
+									"value": "Alfredo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/provider/updateProvider/68465d198eaafad3f4cdcbf2",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"provider",
+								"updateProvider",
+								"68465d198eaafad3f4cdcbf2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProviderLogo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "logo",
+									"type": "file",
+									"src": "/C:/Users/Alfredo Lopez/Downloads/Image-Default.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/provider/updateProviderLogo/6843ceb170033b6e6bf3c159",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"provider",
+								"updateProviderLogo",
+								"6843ceb170033b6e6bf3c159"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProvider",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/provider/listProvider",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"provider",
+								"listProvider"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProviderActive",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/provider/listProvider",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"provider",
+								"listProvider"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProviderById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/provider/listProviderById/68438019bb557c48387ce60d",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"provider",
+								"listProviderById",
+								"68438019bb557c48387ce60d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProviderByName",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "provider",
+									"value": "PajeroGT",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/provider/listProviderByName",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"provider",
+								"listProviderByName"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categoría",
+			"item": [
+				{
+					"name": "addCategory",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Perro",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Animal de Casa",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/category/addCategory",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"addCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCategory",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Perro",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Animal de Granja",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/category/updateCategory/684655b25800275f26774d1a",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"updateCategory",
+								"684655b25800275f26774d1a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "softDelete",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Perro",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Animal de Granja",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/category/updateCategory/684655b25800275f26774d1a",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"updateCategory",
+								"684655b25800275f26774d1a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listCategory",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/category/listCategory",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"listCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllCategory",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/category/listCategory",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"listCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listCategoryById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Pato",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "animal",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/category/listCategoryById/684655b25800275f26774d1a",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"listCategoryById",
+								"684655b25800275f26774d1a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listCategoryByName",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "cerdo",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/category/listCategoryByName",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"category",
+								"listCategoryByName"
+							],
+							"query": [
+								{
+									"key": "categoryName",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Publicación",
-			"item": []
+			"item": [
+				{
+					"name": "addPost",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Vendo Semillas de Crecimiento",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Hola estoy vendiendo las cabezas de ganado adjunto varias imagenes por si llegan a tener dudas",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "San Mateo Villa Nueva Zona 5",
+									"type": "text"
+								},
+								{
+									"key": "images",
+									"type": "file",
+									"src": "/C:/Users/Alfredo Lopez/Downloads/wallhaven-j8x9op_1920x1080.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/Post/addPost",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"Post",
+								"addPost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updatePost",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "title",
+									"value": "Vendo 30 Cabezas de Ganado",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Hola estoy vendiendo las cabezas de ganado adjunto varias imagenes por si llegan a tener dudas",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "San Mateo Villa Nueva Zona 5",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/Post/updatePost/684667eadd1f351baf09f524",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"Post",
+								"updatePost",
+								"684667eadd1f351baf09f524"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Soft delete",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "deactivationReason",
+									"value": "Por mis huevos",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/Post/softDeletePost/684e4d945037288e19c815d9",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"Post",
+								"softDeletePost",
+								"684e4d945037288e19c815d9"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllPost",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/post/listPost",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"post",
+								"listPost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllPostActive",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/post/listPost",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"post",
+								"listPost"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listPostById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/Post/listPostById/684489de38362670da903c8e",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"Post",
+								"listPostById",
+								"684489de38362670da903c8e"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Comentario",
-			"item": []
+			"item": [
+				{
+					"name": "addComment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "comment",
+									"value": "Me interesa, te voy a contactar",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/comment/addComment/684667eadd1f351baf09f524",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"addComment",
+								"684667eadd1f351baf09f524"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateComment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "comment",
+									"value": "Ya no estoy interesado ",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/comment/updateComment/68466760dd1f351baf09f51e",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"updateComment",
+								"68466760dd1f351baf09f51e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/comment/deleteComment/6844b1080d110298fd5c4cd1",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"comment",
+								"deleteComment",
+								"6844b1080d110298fd5c4cd1"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "Carrito",
-			"item": []
-		},
-		{
-			"name": "Factura",
-			"item": []
+			"name": "Productos",
+			"item": [
+				{
+					"name": "addProducts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Dog - Chaw1",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Concentrado para perro",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "600",
+									"type": "text"
+								},
+								{
+									"key": "weigth",
+									"value": "150-lb",
+									"type": "text"
+								},
+								{
+									"key": "productImage",
+									"type": "file",
+									"src": "/C:/Users/Alfredo Lopez/Downloads/81uDdWjyUjL._AC_SX679_.jpg"
+								},
+								{
+									"key": "provider",
+									"value": "68465d198eaafad3f4cdcbf2",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "684655b25800275f26774d1a",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/product/addProduct",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"addProduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProduct",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Dog - Chaw - Purina",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Concentrado para perro miniatura",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "700",
+									"type": "text"
+								},
+								{
+									"key": "weigth",
+									"value": "100-lb",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/product/updateProduct/6846619d80ad789c3a4ef65c",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"updateProduct",
+								"6846619d80ad789c3a4ef65c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "soft Delete",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Dog - Chaw - Purina",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Concentrado para perro miniatura",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "700",
+									"type": "text"
+								},
+								{
+									"key": "weigth",
+									"value": "100-lb",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/product/updateProduct/6846619d80ad789c3a4ef65c",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"updateProduct",
+								"6846619d80ad789c3a4ef65c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateProductImage",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productImage",
+									"type": "file",
+									"src": "/C:/Users/Alfredo Lopez/Downloads/IMG-20250210-WA0068.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/product/updateProductImage/6844e802f3c1ac6029636e97",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"updateProductImage",
+								"6844e802f3c1ac6029636e97"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProductsActive",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/product/listProducts",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"listProducts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProducts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/product/listProducts",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"listProducts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProductsById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/product/listProductsById/6844db9d6b2a61b8bb7e2729",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"listProductsById",
+								"6844db9d6b2a61b8bb7e2729"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProductsAZ",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/product/listProductsAZ",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"listProductsAZ"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProductsZA",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/product/listProductsZA",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"listProductsZA"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProductsPriceHigh",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/product/listProductsPriceHigh",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"listProductsPriceHigh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProductsPriceLow",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/product/listProductsPriceLow",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"listProductsPriceLow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listProductsProvider",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/product/listProductsProvider/6843ceb170033b6e6bf3c159",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"product",
+								"listProductsProvider",
+								"6843ceb170033b6e6bf3c159"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Manejo de Stock",
-			"item": []
+			"item": [
+				{
+					"name": "addInventoryMovent",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "product",
+									"value": "6846619d80ad789c3a4ef65c",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "300",
+									"type": "text"
+								},
+								{
+									"key": "inputType",
+									"value": "entry",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/inventory/addInventoryMovement",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"inventory",
+								"addInventoryMovement"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateInventoryMovement",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "amount",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/inventory/updateInventoryMovement/68466f9bc1fffba15f26bd8e",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"inventory",
+								"updateInventoryMovement",
+								"68466f9bc1fffba15f26bd8e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteInventoryMovement",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/inventory/deleteInventoryMovement/68451c8ea85d4c6597260f75",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"inventory",
+								"deleteInventoryMovement",
+								"68451c8ea85d4c6597260f75"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listInventoryMovement",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/inventory/listInventoryMovement/",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"inventory",
+								"listInventoryMovement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listInventoryMovementById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "localhost:2003/v1/inventory/listInventoryMovementById/68451c5ba85d4c6597260f66",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"inventory",
+								"listInventoryMovementById",
+								"68451c5ba85d4c6597260f66"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Carrito",
+			"item": [
+				{
+					"name": "addCart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "productId",
+									"value": "6846619d80ad789c3a4ef65c",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/cart/addCart",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"cart",
+								"addCart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listCartUserById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/cart/listCartUserById",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"cart",
+								"listCartUserById"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listCart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/cart/listCart",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"cart",
+								"listCart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listCartById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/cart/listCartById/68461f8795368d99041f508b",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"cart",
+								"listCartById",
+								"68461f8795368d99041f508b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCartItem",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "productId",
+									"value": "6846619d80ad789c3a4ef65c",
+									"type": "text"
+								},
+								{
+									"key": "quantity",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/cart/updateCartItem",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"cart",
+								"updateCartItem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteProductCart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "productId",
+									"value": "6846619d80ad789c3a4ef65c",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/cart/deleteProductCart",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"cart",
+								"deleteProductCart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "clearCart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/cart/clearCart",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"cart",
+								"clearCart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Factura",
+			"item": [
+				{
+					"name": "addBill",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/bill/addBill",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"bill",
+								"addBill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/bill/updateBillCancelled/68463b17e98027e00fc57c65",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"bill",
+								"updateBillCancelled",
+								"68463b17e98027e00fc57c65"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBillsByUserId",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/bill/getBillsByUserId/",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"bill",
+								"getBillsByUserId",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBillById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/bill/getBillById/68463b17e98027e00fc57c65",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"bill",
+								"getBillById",
+								"68463b17e98027e00fc57c65"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllBills",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:2003/v1/bill/getAllBills/",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"bill",
+								"getAllBills",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

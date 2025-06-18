@@ -39,7 +39,20 @@ const providerSchema = new Schema(
         },
 
         logo:{
-            type: String
+            type: String,
+            default: 'images/providerImages/Avatar-Default.jpg'
+        },
+        isActive: {
+            type: Boolean,
+            default: true
+        },
+        deactivationReason: {
+            type: String,
+            default: null
+        },
+        deactivatedAt: {
+            type: Date,
+            default: null
         }
     }
 )

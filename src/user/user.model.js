@@ -69,7 +69,7 @@ const userSchema = new Schema(
 
         profilePhoto: {
             type: String,
-            default: '../images/profileImages/Avatar-Default.jpg'
+            default: 'images/providerImages/Avatar-Default.jpg'
         },
 
         personalData:{
@@ -86,6 +86,18 @@ const userSchema = new Schema(
                     minLength: [5, `NIT must be 5 characters`],
                     maxLength: [10, `Can't be overcome 10 characters`]
                 }
+        },
+        isActive: {
+            type: Boolean,
+            default: true
+        },
+        deactivationReason: {
+            type: String,
+            default: null
+        },
+        deactivatedAt: {
+            type: Date,
+            default: null
         }
     }
 )

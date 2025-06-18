@@ -15,14 +15,27 @@ import productRoutes from './../src/product/product.routes.js'
 import inventoryMoventRoutes from '../src/inventoryMovement/inventoryMovement.routes.js'
 import cartRoutes from '../src/cart/cart.routes.js'
 import billRoutes from './../src/bill/bill.routes.js'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
-const configs = (app)=>{
+const configs = (app) => {
     app.use(express.json())
-    app.use(express.urlencoded({extended:false}))
-    app.use(cors())
-    app.use(helmet())
+    app.use(express.urlencoded({ extended: false }))
+    app.use(cors({
+        origin: 'http://localhost:3000/', // la URL de tu frontend
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true,
+    }));
+
+    app.use(helmet({
+        crossOriginResourcePolicy: { policy: "cross-origin" }
+    }))
+
     app.use(morgan('dev'))
-    app.use(limiter)
+
+    const filename = fileURLToPath(import.meta.url)
+    const dirname = path.dirname(filename)
+    app.use('/images', express.static(path.join(dirname, '../images')))
 }
 
 const routes = (app) => {
