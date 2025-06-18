@@ -507,6 +507,101 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetUserByid",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "Alfred@88917",
+									"type": "text"
+								},
+								{
+									"key": "isActive",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "deactivationReason",
+									"value": "Por mis huevosAAA",
+									"type": "text"
+								},
+								{
+									"key": "deactivatedAt",
+									"value": "2025-08-02",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:2003/v1/user/listUserById/685251696bcf167b62c3870a",
+							"host": [
+								"localhost"
+							],
+							"port": "2003",
+							"path": [
+								"v1",
+								"user",
+								"listUserById",
+								"685251696bcf167b62c3870a"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -656,39 +751,14 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "name",
-									"value": "PajeroGTA",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Empresa abastecedora de pesticida de pajaros",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "pedidos@pajero.com",
-									"type": "text"
-								},
-								{
-									"key": "typeProduct",
-									"value": "Pesticidas",
-									"type": "text"
-								},
-								{
-									"key": "phone",
-									"value": "65748312",
-									"type": "text"
-								},
-								{
-									"key": "legalRepresentative",
-									"value": "Alfredo",
+									"key": "deactivationReason",
+									"value": "Se fue",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/provider/updateProvider/68465d198eaafad3f4cdcbf2",
+							"raw": "localhost:2003/v1/provider/softDeleteProvider/685251eb6bcf167b62c3872e",
 							"host": [
 								"localhost"
 							],
@@ -696,8 +766,8 @@
 							"path": [
 								"v1",
 								"provider",
-								"updateProvider",
-								"68465d198eaafad3f4cdcbf2"
+								"softDeleteProvider",
+								"685251eb6bcf167b62c3872e"
 							]
 						}
 					},
@@ -718,14 +788,14 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "logo",
+									"key": "providerLogo",
 									"type": "file",
-									"src": "/C:/Users/Alfredo Lopez/Downloads/Image-Default.jpg"
+									"src": "postman-cloud:///1efe0245-771b-4950-b46f-89dc3816559f"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/provider/updateProviderLogo/6843ceb170033b6e6bf3c159",
+							"raw": "localhost:2003/v1/provider/updateProviderLogo/685251eb6bcf167b62c3872e",
 							"host": [
 								"localhost"
 							],
@@ -734,7 +804,7 @@
 								"v1",
 								"provider",
 								"updateProviderLogo",
-								"6843ceb170033b6e6bf3c159"
+								"685251eb6bcf167b62c3872e"
 							]
 						}
 					},
@@ -982,19 +1052,14 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "name",
-									"value": "Perro",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Animal de Granja",
+									"key": "deactivationReason",
+									"value": "Se agoto",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/category/updateCategory/684655b25800275f26774d1a",
+							"raw": "localhost:2003/v1/category/softDeleteCategory/68525424cbb3027874c9c7fb",
 							"host": [
 								"localhost"
 							],
@@ -1002,8 +1067,8 @@
 							"path": [
 								"v1",
 								"category",
-								"updateCategory",
-								"684655b25800275f26774d1a"
+								"softDeleteCategory",
+								"68525424cbb3027874c9c7fb"
 							]
 						}
 					},
@@ -1061,7 +1126,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "localhost:2003/v1/category/listCategory",
+							"raw": "localhost:2003/v1/category/listAllCategory",
 							"host": [
 								"localhost"
 							],
@@ -1069,7 +1134,7 @@
 							"path": [
 								"v1",
 								"category",
-								"listCategory"
+								"listAllCategory"
 							]
 						}
 					},
@@ -1105,7 +1170,7 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/category/listCategoryById/684655b25800275f26774d1a",
+							"raw": "localhost:2003/v1/category/listCategoryById/685254cae1e87c851f321149",
 							"host": [
 								"localhost"
 							],
@@ -1114,7 +1179,7 @@
 								"v1",
 								"category",
 								"listCategoryById",
-								"684655b25800275f26774d1a"
+								"685254cae1e87c851f321149"
 							]
 						}
 					},
@@ -1254,7 +1319,7 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/Post/updatePost/684667eadd1f351baf09f524",
+							"raw": "localhost:2003/v1/Post/updatePost/68525580677b3a00b569ff47",
 							"host": [
 								"localhost"
 							],
@@ -1263,7 +1328,7 @@
 								"v1",
 								"Post",
 								"updatePost",
-								"684667eadd1f351baf09f524"
+								"68525580677b3a00b569ff47"
 							],
 							"query": [
 								{
@@ -1292,13 +1357,13 @@
 							"urlencoded": [
 								{
 									"key": "deactivationReason",
-									"value": "Por mis huevos",
+									"value": "Infringe las normas",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/Post/softDeletePost/684e4d945037288e19c815d9",
+							"raw": "localhost:2003/v1/Post/softDeletePost/68525580677b3a00b569ff47",
 							"host": [
 								"localhost"
 							],
@@ -1307,7 +1372,7 @@
 								"v1",
 								"Post",
 								"softDeletePost",
-								"684e4d945037288e19c815d9"
+								"68525580677b3a00b569ff47"
 							],
 							"query": [
 								{
@@ -1358,7 +1423,7 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:2003/v1/post/listPost",
+							"raw": "localhost:2003/v1/post/listPostActive",
 							"host": [
 								"localhost"
 							],
@@ -1366,7 +1431,7 @@
 							"path": [
 								"v1",
 								"post",
-								"listPost"
+								"listPostActive"
 							]
 						}
 					},
@@ -1391,7 +1456,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "localhost:2003/v1/Post/listPostById/684489de38362670da903c8e",
+							"raw": "localhost:2003/v1/Post/listPostById/68525580677b3a00b569ff47",
 							"host": [
 								"localhost"
 							],
@@ -1400,7 +1465,7 @@
 								"v1",
 								"Post",
 								"listPostById",
-								"684489de38362670da903c8e"
+								"68525580677b3a00b569ff47"
 							],
 							"query": [
 								{
@@ -1440,7 +1505,7 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/comment/addComment/684667eadd1f351baf09f524",
+							"raw": "localhost:2003/v1/comment/addComment/68525580677b3a00b569ff47",
 							"host": [
 								"localhost"
 							],
@@ -1449,7 +1514,7 @@
 								"v1",
 								"comment",
 								"addComment",
-								"684667eadd1f351baf09f524"
+								"68525580677b3a00b569ff47"
 							]
 						}
 					},
@@ -1477,7 +1542,7 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/comment/updateComment/68466760dd1f351baf09f51e",
+							"raw": "localhost:2003/v1/comment/updateComment/685257895d210c0980c1d036",
 							"host": [
 								"localhost"
 							],
@@ -1486,7 +1551,7 @@
 								"v1",
 								"comment",
 								"updateComment",
-								"68466760dd1f351baf09f51e"
+								"685257895d210c0980c1d036"
 							]
 						}
 					},
@@ -1508,7 +1573,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "localhost:2003/v1/comment/deleteComment/6844b1080d110298fd5c4cd1",
+							"raw": "localhost:2003/v1/comment/deleteComment/685257895d210c0980c1d036",
 							"host": [
 								"localhost"
 							],
@@ -1517,7 +1582,7 @@
 								"v1",
 								"comment",
 								"deleteComment",
-								"6844b1080d110298fd5c4cd1"
+								"685257895d210c0980c1d036"
 							],
 							"query": [
 								{
@@ -1617,7 +1682,7 @@
 							"urlencoded": [
 								{
 									"key": "name",
-									"value": "Dog - Chaw - Purina",
+									"value": "Dog - Chaw - Purina 4",
 									"type": "text"
 								},
 								{
@@ -1634,11 +1699,16 @@
 									"key": "weigth",
 									"value": "100-lb",
 									"type": "text"
+								},
+								{
+									"key": "stock",
+									"value": "700",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/product/updateProduct/6846619d80ad789c3a4ef65c",
+							"raw": "localhost:2003/v1/product/updateProduct/685258be44472b2cd38984a2",
 							"host": [
 								"localhost"
 							],
@@ -1647,7 +1717,7 @@
 								"v1",
 								"product",
 								"updateProduct",
-								"6846619d80ad789c3a4ef65c"
+								"685258be44472b2cd38984a2"
 							]
 						}
 					},
@@ -1780,7 +1850,7 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:2003/v1/product/listProducts",
+							"raw": "localhost:2003/v1/product/listProduct",
 							"host": [
 								"localhost"
 							],
@@ -1788,7 +1858,7 @@
 							"path": [
 								"v1",
 								"product",
-								"listProducts"
+								"listProduct"
 							]
 						}
 					},
@@ -1937,7 +2007,7 @@
 							}
 						],
 						"url": {
-							"raw": "localhost:2003/v1/product/listProductsProvider/6843ceb170033b6e6bf3c159",
+							"raw": "localhost:2003/v1/product/listProductsProvider/685251eb6bcf167b62c3872e",
 							"host": [
 								"localhost"
 							],
@@ -1946,7 +2016,7 @@
 								"v1",
 								"product",
 								"listProductsProvider",
-								"6843ceb170033b6e6bf3c159"
+								"685251eb6bcf167b62c3872e"
 							]
 						}
 					},
@@ -1973,12 +2043,12 @@
 							"urlencoded": [
 								{
 									"key": "product",
-									"value": "6846619d80ad789c3a4ef65c",
+									"value": "685258be44472b2cd38984a2",
 									"type": "text"
 								},
 								{
 									"key": "amount",
-									"value": "300",
+									"value": "500",
 									"type": "text"
 								},
 								{
@@ -2021,11 +2091,16 @@
 									"key": "amount",
 									"value": "10",
 									"type": "text"
+								},
+								{
+									"key": "inputType",
+									"value": "exit",
+									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "localhost:2003/v1/inventory/updateInventoryMovement/68466f9bc1fffba15f26bd8e",
+							"raw": "localhost:2003/v1/inventory/updateInventoryMovement/68525a08c285b2e2ed81d3a3",
 							"host": [
 								"localhost"
 							],
@@ -2034,7 +2109,7 @@
 								"v1",
 								"inventory",
 								"updateInventoryMovement",
-								"68466f9bc1fffba15f26bd8e"
+								"68525a08c285b2e2ed81d3a3"
 							]
 						}
 					},
@@ -2150,7 +2225,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "localhost:2003/v1/inventory/listInventoryMovementById/68451c5ba85d4c6597260f66",
+							"raw": "localhost:2003/v1/inventory/listInventoryMovementById/68525a08c285b2e2ed81d3a3",
 							"host": [
 								"localhost"
 							],
@@ -2159,7 +2234,7 @@
 								"v1",
 								"inventory",
 								"listInventoryMovementById",
-								"68451c5ba85d4c6597260f66"
+								"68525a08c285b2e2ed81d3a3"
 							]
 						}
 					},
@@ -2186,12 +2261,12 @@
 							"urlencoded": [
 								{
 									"key": "productId",
-									"value": "6846619d80ad789c3a4ef65c",
+									"value": "685258be44472b2cd38984a2",
 									"type": "text"
 								},
 								{
 									"key": "quantity",
-									"value": "10",
+									"value": "470",
 									"type": "text"
 								}
 							]
@@ -2425,7 +2500,7 @@
 					"response": []
 				},
 				{
-					"name": "softDeleteCart Copy",
+					"name": "softDeleteCart Admin",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -2440,7 +2515,7 @@
 							"urlencoded": []
 						},
 						"url": {
-							"raw": "localhost:2003/v1/cart/softDeleteCart/68523fdf13effee28a319683",
+							"raw": "localhost:2003/v1/cart/softDeleteCartA/68525d6538b90a8616cf925f",
 							"host": [
 								"localhost"
 							],
@@ -2448,8 +2523,8 @@
 							"path": [
 								"v1",
 								"cart",
-								"softDeleteCart",
-								"68523fdf13effee28a319683"
+								"softDeleteCartA",
+								"68525d6538b90a8616cf925f"
 							]
 						}
 					},
