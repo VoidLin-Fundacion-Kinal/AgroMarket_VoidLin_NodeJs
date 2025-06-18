@@ -34,7 +34,7 @@ api.post('/addProduct', validateJwt, uploadSingleProductImage, addProductV, addP
 api.put('/updateProduct/:id', validateJwt, updatedProductV, updateProduct)
 api.put('/updateProductImage/:id', validateJwt, uploadSingleProductImage, updateProductImage)
 api.put('/softDeleteProduct/:id', validateJwt, isAdmin, softDeleteProductV, softDeleteProduct)
-api.get('/listProductActive', validateJwt, listProductActive)
+api.get('/listProductActive', listProductActive)
 api.get('/listProduct', validateJwt, isAdmin, listProduct)
 api.get('/listProductsById/:id', validateJwt, listProductById)
 api.get('/listProductsAZ', validateJwt, listProductsAZ)
