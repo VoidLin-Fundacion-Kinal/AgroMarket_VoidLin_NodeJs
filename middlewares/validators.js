@@ -106,7 +106,7 @@ export const softDeleteUserV = [
         .optional()
         .custom(notRequiredField),
 
-    body ('password', 'Password is  required') 
+    body ('password', 'Password is not required') 
         .notEmpty(),
 
     body('role', 'Role is not required')
@@ -250,8 +250,7 @@ export const updateUserPassword = [
         .custom(notRequiredField),
 
     body('password', 'Password is required')
-        .notEmpty()
-        .optional(),
+        .notEmpty(),
 
     body('role', 'Role is not required')
         .optional()
