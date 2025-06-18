@@ -58,57 +58,48 @@ export const addPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
+        const { title, description, address } = req.body;
 
-        const {
-            title,
-            description,
-            address
-        } = req.body
+        const postData = await Post.findById(id).select('isActive');
 
-        let postData = await Post.findById(id)
+        if (!postData) {
+            return res.status(404).send({
+                success: false,
+                message: 'Post not found'
+            });
+        }
 
+ 
         if (!postData.isActive) {
             return res.status(403).send({
                 success: false,
                 message: 'Cannot update a deactivated post'
-            })
+            });
         }
 
-        if (!postData) {
-            return res.status(404).send(
-                {
-                    success: false,
-                    message: 'Post not found'
-                }
-            )
-        }
-
-        let newPost = await Post.findByIdAndUpdate(
+      
+        const updatedPost = await Post.findByIdAndUpdate(
             id,
             { title, description, address },
-            { new: true }
-        )
+            { new: true, runValidators: true } 
+        );
 
-        return res.status(200).send(
-            {
-                success: true,
-                message: 'Post updated: ',
-                post: newPost
-            }
-        )
+        return res.status(200).send({
+            success: true,
+            message: 'Post updated successfully',
+            post: updatedPost
+        });
+
     } catch (error) {
-        console.error(error)
-        return res.status(500).send(
-            {
-                success: false,
-                message: 'Internal Error',
-                error: error.message
-            }
-        )
+        console.error('Error updating post:', error);
+        return res.status(500).send({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
     }
-}
-
+ }
  
 export const listPost = async (req, res) => {
     try {
