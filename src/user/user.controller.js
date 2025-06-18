@@ -1,6 +1,7 @@
 import User from '../user/user.model.js'
 import { encrypt, checkPassword } from '../../utils/encrypt.js'
-
+import path from 'path';
+import fs from 'fs';
 //Actualizar Usuario
 export const updateUser = async (req, res) => {
     try {
@@ -37,7 +38,40 @@ export const updateUser = async (req, res) => {
         })
     }
 }
+export const listUserById = async (req, res) => {
+  try {
+    let id = req.user.uid
 
+    const user = await User.findById(id)
+
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: 'Could not find User'
+      })
+    }
+
+    if (!user.isActive) {
+      return res.status(403).send({
+        success: false,
+        message: 'This User is deactivated'
+      })
+    }
+
+    return res.status(200).send({
+      success: true,
+      message: 'User Found',
+      User: user
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({
+      success: false,
+      message: 'General Error',
+      error
+    })
+  }
+}
 
 //Update Password
 export const updatePassword = async (req, res) => {
@@ -164,6 +198,53 @@ export const getAllActiveUsers = async (req, res) => {
     }
 };
 
+export const updateUserLogo = async (req, res) => {
+  try {
+    const userId = req.user.uid;
+
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No file uploaded' });
+    }
+
+    const userData = await User.findById(userId);
+
+    if (!userData) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (!userData.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: 'This user is deactivated and cannot update logo'
+      });
+    }
+
+    if (userData.profilePhoto) {
+      const uploadsDir = path.join(process.cwd(), 'uploads'); 
+      const oldPath = path.join(uploadsDir, userData.profilePhoto);
+      try {
+        await fs.promises.unlink(oldPath);
+      } catch (err) {
+        if (err.code !== 'ENOENT') {
+          console.error('Error deleting old logo:', err);
+        }
+      }
+    }
+
+    // Actualizar nuevo logo
+    userData.profilePhoto = req.file.filename;
+    await userData.save();
+
+    return res.json({
+      success: true,
+      message: 'User logo updated successfully'
+    });
+
+  } catch (error) {
+    console.error('Update logo error:', error);
+    return res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
+};
  
 
 

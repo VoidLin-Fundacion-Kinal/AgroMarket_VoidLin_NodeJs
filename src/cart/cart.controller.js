@@ -8,34 +8,31 @@ export const addCart = async (req, res) => {
         const { productId, quantity } = req.body
         const quantityNum = Number(quantity)
 
-        // Validaciones básicas
+        
         if (isNaN(quantityNum) || quantityNum <= 0) {
             return res.status(400).send({
                 success: false,
-                message: 'La cantidad debe ser un número positivo'
+                message: 'The amount must be a positive number'
             })
         }
 
-        // Buscar o crear carrito activo
         let cart = await Cart.findOne({ user: idC, status: 'active' })
         if (!cart) {
             cart = new Cart({ user: idC, items: [] })
         }
 
-        // Verificar producto
         const productData = await Product.findById(productId)
         if (!productData) {
             return res.status(404).send({
                 success: false,
-                message: 'Producto no encontrado'
+                message: 'Product not found'
             })
         }
 
-        // Validar producto activo
         if (!productData.isActive) {
             return res.status(400).send({
                 success: false,
-                message: 'Este producto no está disponible actualmente'
+                message: 'This product is currently unavailable'
             })
         }
 
@@ -46,7 +43,7 @@ export const addCart = async (req, res) => {
         if (newQuantity > productData.stock) {
             return res.status(400).send({
                 success: false,
-                message: 'Stock insuficiente. Por favor contacte al proveedor.'
+                message: 'Insufficient stock. Please contact the supplier.'
             })
         }
 
@@ -69,7 +66,7 @@ export const addCart = async (req, res) => {
 
         return res.status(200).send({
             success: true,
-            message: 'Producto agregado al carrito',
+            message: 'Product added to cart',
             cart
         })
 
@@ -77,7 +74,7 @@ export const addCart = async (req, res) => {
         console.error(error)
         return res.status(500).send({
             success: false,
-            message: 'Error interno del servidor'
+            message: 'Internal Server Error'
         })
     }
 }
@@ -91,13 +88,13 @@ export const listCartUserById = async (req, res) => {
         if (!cart) {
             return res.status(404).send({
                 success: false,
-                message: 'No se encontró un carrito activo'
+                message: 'No active cart found'
             })
         }
 
         return res.status(200).send({
             success: true,
-            message: 'Carrito encontrado',
+            message: 'Cart found',
             cart
         })
 
@@ -105,7 +102,7 @@ export const listCartUserById = async (req, res) => {
         console.error(error)
         return res.status(500).send({
             success: false,
-            message: 'Error interno del servidor'
+            message: 'Internal Server Error'
         })
     }
 }
@@ -123,13 +120,13 @@ export const listCart = async (req, res) => {
         if (!carts || carts.length === 0) {
             return res.status(404).send({
                 success: false,
-                message: 'No se encontraron carritos'
+                message: 'No carts found'
             })
         }
 
         return res.status(200).send({
             success: true,
-            message: 'Carritos encontrados',
+            message: 'Carts found',
             carts
         })
 
@@ -137,7 +134,7 @@ export const listCart = async (req, res) => {
         console.error(error)
         return res.status(500).send({
             success: false,
-            message: 'Error interno del servidor'
+            message: 'Internal Server Error'
         })
     }
 }
@@ -153,13 +150,13 @@ export const listCartById = async (req, res) => {
         if (!cart) {
             return res.status(404).send({
                 success: false,
-                message: 'Carrito no encontrado'
+                message: 'Cart not found'
             })
         }
 
         return res.status(200).send({
             success: true,
-            message: 'Carrito encontrado',
+            message: 'Cart found',
             cart
         })
 
@@ -167,7 +164,7 @@ export const listCartById = async (req, res) => {
         console.error(error)
         return res.status(500).send({
             success: false,
-            message: 'Error interno del servidor'
+            message: 'Internal Server Error'
         })
     }
 }
@@ -182,7 +179,7 @@ export const updateCartItem = async (req, res) => {
         if (isNaN(quantityNum) || quantityNum <= 0) {
             return res.status(400).send({
                 success: false,
-                message: 'La cantidad debe ser un número positivo'
+                message: 'The amount must be a positive number'
             })
         }
 
@@ -192,7 +189,7 @@ export const updateCartItem = async (req, res) => {
         if (!cart) {
             return res.status(404).send({
                 success: false,
-                message: 'Carrito no encontrado'
+                message: 'Cart not found'
             })
         }
 
@@ -203,7 +200,7 @@ export const updateCartItem = async (req, res) => {
         if (!item) {
             return res.status(404).send({
                 success: false,
-                message: 'Producto no encontrado en el carrito'
+                message: 'Product not found in the cart'
             })
         }
 
@@ -211,7 +208,7 @@ export const updateCartItem = async (req, res) => {
         if (!item.product.isActive) {
             return res.status(400).send({
                 success: false,
-                message: 'Este producto ya no está disponible'
+                message: 'Product not found in the cart'
             })
         }
 
@@ -219,7 +216,7 @@ export const updateCartItem = async (req, res) => {
         if (quantityNum > item.product.stock) {
             return res.status(400).send({
                 success: false,
-                message: 'Stock insuficiente. Por favor contacte al proveedor.'
+                message: 'Insufficient stock. Please contact the supplier.'
             })
         }
 
@@ -233,7 +230,7 @@ export const updateCartItem = async (req, res) => {
 
         return res.status(200).send({
             success: true,
-            message: 'Carrito actualizado',
+            message: 'Updated cart',
             cart
         })
 
@@ -241,7 +238,7 @@ export const updateCartItem = async (req, res) => {
         console.error(error)
         return res.status(500).send({
             success: false,
-            message: 'Error interno del servidor'
+            message: 'Internal Server Error'
         })
     }
 }
@@ -258,7 +255,7 @@ export const deleteProductCart = async (req, res) => {
         if (!cart) {
             return res.status(404).send({
                 success: false,
-                message: 'Carrito no encontrado'
+                message: 'Cart not found'
             })
         }
 
@@ -270,7 +267,7 @@ export const deleteProductCart = async (req, res) => {
         if (itemIndex === -1) {
             return res.status(404).send({
                 success: false,
-                message: 'Producto no encontrado en el carrito'
+                message: 'Product not found in the cart'
             })
         }
 
@@ -285,7 +282,7 @@ export const deleteProductCart = async (req, res) => {
 
         return res.status(200).send({
             success: true,
-            message: 'Producto eliminado del carrito',
+            message: 'Product removed from cart',
             cart
         })
 
@@ -293,7 +290,7 @@ export const deleteProductCart = async (req, res) => {
         console.error(error)
         return res.status(500).send({
             success: false,
-            message: 'Error interno del servidor'
+            message: 'Internal Server Error'
         })
     }
 }
@@ -307,7 +304,7 @@ export const clearCart = async (req, res) => {
         if (!cart) {
             return res.status(404).send({
                 success: false,
-                message: 'Carrito no encontrado'
+                message: 'Cart not found'
             })
         }
 
@@ -318,7 +315,7 @@ export const clearCart = async (req, res) => {
 
         return res.status(200).send({
             success: true,
-            message: 'Carrito vaciado',
+            message: 'Cart emptied',
             cart
         })
 
@@ -326,7 +323,7 @@ export const clearCart = async (req, res) => {
         console.error(error)
         return res.status(500).send({
             success: false,
-            message: 'Error interno del servidor'
+            message: 'Internal Server Error'
         })
     }
 }
@@ -361,7 +358,7 @@ export const softDeleteCart = async (req, res) => {
             });
         }
 
-        
+
         // Perform the soft delete by changing status
         cart.status = 'cancelled';
 

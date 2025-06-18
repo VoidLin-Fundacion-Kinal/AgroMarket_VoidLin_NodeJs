@@ -58,57 +58,48 @@ export const addPost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req.params;
+        const { title, description, address } = req.body;
 
-        const {
-            title,
-            description,
-            address
-        } = req.body
+        const postData = await Post.findById(id).select('isActive');
 
-        let postData = await Post.findById(id)
+        if (!postData) {
+            return res.status(404).send({
+                success: false,
+                message: 'Post not found'
+            });
+        }
 
+ 
         if (!postData.isActive) {
             return res.status(403).send({
                 success: false,
                 message: 'Cannot update a deactivated post'
-            })
+            });
         }
 
-        if (!postData) {
-            return res.status(404).send(
-                {
-                    success: false,
-                    message: 'Post not found'
-                }
-            )
-        }
-
-        let newPost = await Post.findByIdAndUpdate(
+      
+        const updatedPost = await Post.findByIdAndUpdate(
             id,
             { title, description, address },
-            { new: true }
-        )
+            { new: true, runValidators: true } 
+        );
 
-        return res.status(200).send(
-            {
-                success: true,
-                message: 'Post updated: ',
-                post: newPost
-            }
-        )
+        return res.status(200).send({
+            success: true,
+            message: 'Post updated successfully',
+            post: updatedPost
+        });
+
     } catch (error) {
-        console.error(error)
-        return res.status(500).send(
-            {
-                success: false,
-                message: 'Internal Error',
-                error: error.message
-            }
-        )
+        console.error('Error updating post:', error);
+        return res.status(500).send({
+            success: false,
+            message: 'Internal server error',
+            error: error.message
+        });
     }
-}
-
+ }
  
 export const listPost = async (req, res) => {
     try {
@@ -285,3 +276,60 @@ export const listPostActive = async (req, res) => {
         })
     }
 }
+export const listPostsUser = async (req, res) => {
+  try {
+    const { limit = 20, skip = 0 } = req.query;
+    const { id } = req.params;
+
+    // First check if user exists and is active
+    const userData = await User.findById(id);
+    
+    if (!userData) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    if (!userData.isActive) {
+      return res.status(403).json({
+        success: false,
+        message: 'User account is deactivated'
+      });
+    }
+
+    // Then get the posts
+    const posts = await Post.find({ user: id, isActive: true })
+      .populate({
+        path: 'user',
+        select: '-__v -createdAt -updatedAt'
+      })
+      .populate({
+        path: 'comments.user',
+        select: 'name surname'
+      })
+      .limit(Number(limit))
+      .skip(Number(skip));
+
+    if (!posts || posts.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'No posts found for this user'
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Posts listed successfully',
+      posts
+    });
+
+  } catch (error) {
+    console.error('Error listing posts:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+};

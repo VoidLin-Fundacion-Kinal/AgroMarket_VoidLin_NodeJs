@@ -37,7 +37,7 @@ const userSchema = new Schema(
         address: {
             type: String,
             required: [true, 'Address is required'],
-            minLength: [15, `Can't be overcome 15 characters`],
+            minLength: [5, `Can't be overcome 5 characters`],
             maxLength: [45, `Address must be 40 characters `]
 
         },

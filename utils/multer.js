@@ -63,7 +63,7 @@ const baseConfig = {
 /* -------------------- EXPORTS: diferentes tipos de carga -------------------- */
 
 // 1. Para endpoints que suben 1 imagen de perfil (logo o photo)
-export const uploadProfilePicture = multer(baseConfig).single('logo')  // o 'photo'
+export const uploadProfilePicture = multer(baseConfig).single('photo') 
 
 // 2. Para publicaciones (posts) que permiten 0..10 imágenes
 export const uploadPostImages = multer(baseConfig).array('images', 10) 

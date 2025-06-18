@@ -18,6 +18,12 @@ export const addInventoryMovement = async (req, res) => {
                 message: 'Product not found'
             })
         }
+        if (!productData.isActive) {
+            return res.status(400).send({
+                success: false,
+                message: 'Cannot add product: Product is deactivated'
+            });
+        }
 
         if (inputType === 'exit') {
             if (productData.stock <= 0) {

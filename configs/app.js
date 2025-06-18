@@ -22,7 +22,7 @@ const configs = (app) => {
     app.use(express.json())
     app.use(express.urlencoded({ extended: false }))
     app.use(cors({
-        origin: 'http://localhost:3000/', // la URL de tu frontend
+        origin: 'http://localhost:3000', // la URL de tu frontend
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         credentials: true,
     }));
