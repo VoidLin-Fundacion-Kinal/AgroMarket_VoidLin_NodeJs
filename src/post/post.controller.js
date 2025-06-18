@@ -117,8 +117,12 @@ export const listPost = async (req, res) => {
             {
                 path: 'user',
                 select: 'name username surname address email cui nit'
-            }
-        ).skip(skip).limit(limit)
+            })
+            .populate({
+                path: 'comments.user',
+                select: 'name surname'
+            })
+            .skip(skip).limit(limit)
 
         if (!post || post.length == 0) {
             return res.statu(404).send(
@@ -157,6 +161,10 @@ export const listPostById = async (req, res) => {
         path: 'user',
         select: 'name username surname address email cui nit'
       })
+      .populate({
+                path: 'comments.user',
+                select: 'name surname'
+            })
       .lean()
 
     if (!dataPost) {
@@ -242,6 +250,11 @@ export const listPostActive = async (req, res) => {
             path: 'user',
             select: 'name username surname address email cui nit'
         })
+        .populate({
+                path: 'comments.user',
+                select: 'name surname'
+            })
+        
             .skip(skip)
             .limit(limit)
             .lean()
