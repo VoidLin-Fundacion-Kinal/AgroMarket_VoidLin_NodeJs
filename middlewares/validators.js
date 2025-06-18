@@ -6,9 +6,9 @@ import { validateErrors, validateErrorsWithoutFiles } from './validate.error.js'
 export const registerValidator= [
 
     body('username', 'Username cannot be empty')
-    .notEmpty()
-    .toLowerCase()
-    .custom(existUsername),
+        .notEmpty()
+        .toLowerCase()
+        .custom(existUsername),
 
     body('name', 'Name cannot be empty')
         .notEmpty(),
@@ -18,14 +18,22 @@ export const registerValidator= [
 
     body('phone','Phone cannot be empty')
         .notEmpty()
-        .isLength({min:8, max:8})
+        .trim()
+        .isLength({ min: 8, max: 8 })
+        .matches(/^[2-7][0-9]{7}$/)
         .custom(existPhone),
+
     
     body('address','Address cannot be empty')
         .notEmpty(),
 
     body('email', 'Email cannot be empty')
         .notEmpty()
+        .trim()
+        .toLowerCase()
+        .isEmail()
+        .matches(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)
+        .isLength({ max: 30 })
         .custom(existEmail),
     
     body('role', 'Role is not required')
@@ -41,12 +49,16 @@ export const registerValidator= [
 
     body('cui', 'Cui cannot be empty')
         .notEmpty()
-        .isLength({min: 13, max:13})
+        .trim()
+        .isLength({ min: 13, max: 13 })
+        .matches(/^[0-9]{13}$/)
         .custom(existCui),
-    
+        
     body('nit','Nit cannot be empty')
         .notEmpty()
-        .isLength({min: 5, max:10})
+        .trim()
+        .isLength({ min: 7, max: 10 })
+        .matches(/^[0-9]{7,8}-?[0-9]$/)
         .custom(existNit),
 
     body('isActive', 'isActive is not required')
@@ -116,7 +128,7 @@ export const softDeleteUserV = [
      body('deactivationReason', 'Deactivation reason is  required')
         .optional()
         .notEmpty()
-        .isLength({ min: 10, max: 500 }).withMessage('Deactivation Reason must be between 10 and 500 characters'),
+        .isLength({ min: 5, max: 500 }).withMessage('Deactivation Reason must be between 5 and 500 characters'),
 
     body('deactivatedAt', 'Deactivated at is  not required')
         .optional()
@@ -128,9 +140,8 @@ export const softDeleteUserV = [
 //Validacion para el  update de user
 export const updateUserV = [
     body('userId')
-        .notEmpty()
-        .isMongoId()
-        .optional(),
+        .optional()
+        .custom(notRequiredField),,
 
     body('username', 'Username is optional')
         .notEmpty()
@@ -149,7 +160,10 @@ export const updateUserV = [
 
     body('phone', 'Phone is optional')
         .notEmpty()
-        .isLength({min:8, max:8})
+        .trim()
+        .isLength({ min: 8, max: 8 })
+        .matches(/^[2-7][0-9]{7}$/)
+        .custom(existPhone)
         .optional(),
 
     body('address', 'Address is optional')
@@ -158,6 +172,12 @@ export const updateUserV = [
 
     body('email', 'Email is optional')
         .notEmpty()
+        .trim()
+        .toLowerCase()
+        .isEmail()
+        .matches(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)
+        .isLength({ max: 30 })
+        .custom(existEmail)
         .optional(),
 
     body('password', 'Password is not required')
@@ -170,10 +190,18 @@ export const updateUserV = [
 
     body('cui', 'CUI is optional')
         .notEmpty()
+        .trim()
+        .isLength({ min: 13, max: 13 })
+        .matches(/^[0-9]{13}$/)
+        .custom(existCui)
         .optional(),
 
     body('nit', 'NIT is optional')
         .notEmpty()
+        .trim()
+        .isLength({ min: 7, max: 10 })
+        .matches(/^[0-9]{7,8}-?[0-9]$/)
+        .custom(existNit)
         .optional(),
 
     body('isActive', 'isActive is not required')
@@ -321,7 +349,7 @@ export const softDeleteCategoryV = [
      body('deactivationReason', 'Deactivation reason is  required')
         .optional()
         .notEmpty()
-        .isLength({ min: 10, max: 500 }).withMessage('Deactivation Reason must be between 10 and 500 characters'),
+        .isLength({ min: 5, max: 500 }).withMessage('Deactivation Reason must be between 5 and 500 characters'),
 
     body('deactivatedAt', 'Deactivated at is  not required')
         .optional()
@@ -471,7 +499,7 @@ export const softDeleteProviderV = [
      body('deactivationReason', 'Deactivation reason is  required')
         .optional()
         .notEmpty()
-        .isLength({ min: 10, max: 500 }).withMessage('Deactivation Reason must be between 10 and 500 characters'),
+        .isLength({ min: 5, max: 500 }).withMessage('Deactivation Reason must be between 5 and 500 characters'),
 
     body('deactivatedAt', 'Deactivated at is  not required')
         .optional()
@@ -706,6 +734,10 @@ export const updatePostV = [
         .notEmpty()
         .trim()
         .isLength({ min: 5, max: 75 }).withMessage('Address must be between 5 and 75 characters'),
+
+     body('date', 'Date is not required')
+        .optional() 
+        .custom(notRequiredField),
 
      body('isActive', 'isActive is not required')
         .optional() 
