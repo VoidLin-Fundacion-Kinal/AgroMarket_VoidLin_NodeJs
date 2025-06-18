@@ -40,7 +40,7 @@ export const updateUser = async (req, res) => {
 }
 export const listUserById = async (req, res) => {
   try {
-    let { id } = req.params
+    let id = req.user.uid
 
     const user = await User.findById(id)
 
