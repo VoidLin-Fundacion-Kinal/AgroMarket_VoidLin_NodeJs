@@ -6,7 +6,8 @@ import {
     listUserById,
     softDeleteUser, 
     getAllUser,
-    getAllActiveUsers
+    getAllActiveUsers,
+    updateUserLogo
 } from './user.controller.js'
 
 import {
@@ -17,12 +18,14 @@ import {
 import {
         softDeleteUserV,
         updateUserV,
-        updateUserPassword
+        updateUserPasswordV
 } from './../../middlewares/validators.js'
+import {uploadProfilePicture} from '../../utils/multer.js'
 const api = Router()
 
+api.put('/updateProfilePhone', validateJwt, uploadProfilePicture, updateUserLogo)
 api.put('/updateUser', validateJwt, updateUserV, updateUser)
-api.put('/updatePassword', updateUserPassword, validateJwt, updatePassword)
+api.put('/updatePassword', updateUserPasswordV, validateJwt, updatePassword)
 api.put('/softDeleteUser', validateJwt, softDeleteUserV, softDeleteUser)
 api.get('/getAllUser', validateJwt, isAdmin, getAllUser)
 api.get('/getAllActiveUsers', validateJwt, isAdmin, getAllActiveUsers)
