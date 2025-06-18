@@ -741,7 +741,7 @@ export const softDeletePostV = [
      body('deactivationReason', 'Deactivation reason is  required')
         .optional()
         .notEmpty()
-        .isLength({ min: 10, max: 500 }).withMessage('Description must be between 10 and 500 characters'),
+        .isLength({ min: 5, max: 500 }).withMessage('Description must be between 5 and 500 characters'),
 
     body('deactivatedAt', 'Deactivated at is  not required')
         .optional()
@@ -801,18 +801,81 @@ export const addInventoryMovementV = [
         .notEmpty()
         .trim()
         .isIn(['entry', 'exit']).withMessage('Type must be either "Entry" or "Exit"'),
+    
+    body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
 
     validateErrors
 ]
 
 export const updateInventoryMovementV = [
 
-    body('amount', 'Amount is required')
+     body('product', 'Product ID is required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('amount', 'amount is required')
         .notEmpty()
         .trim()
         .isNumeric().withMessage('Amount must be a number')
         .isInt({ gt: 0 }).withMessage('Amount must be a positive integer'),
 
+    body('inputType', 'Input Type is required')
+        .optional()
+        .notEmpty()
+        .trim()
+        .isIn(['entry', 'exit']).withMessage('Type must be either "Entry" or "Exit"'),
+
+    body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
+
+    validateErrors
+]
+
+export const softDeleteInventoryMovementV = [
+
+     body('product', 'Product ID is required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('amount', 'amount is required')
+        .optional()
+        .custom(notRequiredField),
+
+    body('inputType', 'Input Type is required')
+        .optional()
+        .custom(notRequiredField),
+        
+    body('isActive', 'isActive is not required')
+        .optional() 
+        .custom(notRequiredField),
+
+    body('deactivationReason', 'Deactivation reason is not required')
+        .optional()
+        .notEmpty()
+        .isLength({ min: 5, max: 500 }).withMessage('Description must be between 5 and 500 characters'),
+
+    body('deactivatedAt', 'Deactivated at is not required')
+        .optional()
+        .custom(notRequiredField),
 
     validateErrors
 ]
