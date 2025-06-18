@@ -31,6 +31,12 @@ export const addProduct = async (req, res) => {
                 }
             )
         }
+         if (!providerData.isActive) {
+            return res.status(400).send({
+                success: false,
+                message: 'Cannot add product: Provider is deactivated'
+            });
+        }
 
 
         let categoryData = await Category.findById(category)
@@ -41,6 +47,12 @@ export const addProduct = async (req, res) => {
                     message: 'Category not Found'
                 }
             )
+        }
+         if (!categoryData.isActive) {
+            return res.status(400).send({
+                success: false,
+                message: 'Cannot add product: Category is deactivated'
+            });
         }
 
         let newProduct = new Product(
