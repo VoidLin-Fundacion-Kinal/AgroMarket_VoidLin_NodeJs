@@ -29,6 +29,6 @@ api.put('/updatePassword', updateUserPasswordV, validateJwt, updatePassword)
 api.put('/softDeleteUser', validateJwt, softDeleteUserV, softDeleteUser)
 api.get('/getAllUser', validateJwt, isAdmin, getAllUser)
 api.get('/getAllActiveUsers', validateJwt, isAdmin, getAllActiveUsers)
-api.get('/listUserById/:id', validateJwt, listUserById)
+api.get('/listUserById', validateJwt, listUserById)
 
 export default api
