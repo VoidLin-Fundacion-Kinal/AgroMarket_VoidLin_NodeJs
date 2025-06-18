@@ -51,14 +51,12 @@ export const registerValidator= [
         .notEmpty()
         .trim()
         .isLength({ min: 13, max: 13 })
-        .matches(/^[0-9]{13}$/)
         .custom(existCui),
         
     body('nit','Nit cannot be empty')
         .notEmpty()
         .trim()
         .isLength({ min: 7, max: 10 })
-        .matches(/^[0-9]{7,8}-?[0-9]$/)
         .custom(existNit),
 
     body('isActive', 'isActive is not required')
