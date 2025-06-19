@@ -139,38 +139,42 @@ export const softDeleteUserV = [
 export const updateUserV = [
     body('userId')
         .optional()
-        .custom(notRequiredField),,
+        .custom(notRequiredField),
 
     body('username', 'Username is optional')
+        .optional()
         .isLength({ min: 3, max: 15 })
         .withMessage('Username must be between 3 and 15 characters')     
-        .toLowerCase()
-        .optional(),
+        .toLowerCase(),
+        
 
     body('name', 'Name is optional')
-        .optional(),
+        .optional()
+        .notEmpty()
+        .withMessage('Name not empty'),  
+       
 
     body('surname', 'Surname is optional')
         .optional(),
 
     body('phone', 'Phone is optional')
+        .optional()
         .trim()
         .isLength({ min: 8, max: 8 })
         .matches(/^[2-7][0-9]{7}$/)
-        .custom(existPhone)
-        .optional(),
+        .custom(existPhone),
 
     body('address', 'Address is optional')
         .optional(),
 
     body('email', 'Email is optional')
+        .optional()
         .trim()
         .toLowerCase()
         .isEmail()
         .matches(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/)
         .isLength({ max: 30 })
-        .custom(existEmail)
-        .optional(),
+        .custom(existEmail),
 
     body('password', 'Password is not required')
         .optional()
@@ -181,18 +185,18 @@ export const updateUserV = [
         .custom(notRequiredField),
 
     body('cui', 'CUI is optional')
+        .optional()
         .trim()
         .isLength({ min: 13, max: 13 })
         .matches(/^[0-9]{13}$/)
-        .custom(existCui)
-        .optional(),
+        .custom(existCui),
 
     body('nit', 'NIT is optional')
+        .optional()
         .trim()
         .isLength({ min: 7, max: 10 })
         .matches(/^[0-9]{7,8}-?[0-9]$/)
-        .custom(existNit)
-        .optional(),
+        .custom(existNit),
 
     body('isActive', 'isActive is not required')
         .optional()
