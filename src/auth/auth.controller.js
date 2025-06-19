@@ -64,6 +64,13 @@ export const login = async(req, res) => {
                 message: 'User not Found'
             }
         )
+        if (!user.isActive) {
+            return res.status(400).send({
+                success: false,
+                message: 'User is deactivated'
+            });
+        }
+
 
         if(user && await checkPassword(user.password, password)){
             let loggedUser = {
