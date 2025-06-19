@@ -142,22 +142,18 @@ export const updateUserV = [
         .custom(notRequiredField),,
 
     body('username', 'Username is optional')
-        .notEmpty()
         .isLength({ min: 3, max: 15 })
         .withMessage('Username must be between 3 and 15 characters')     
         .toLowerCase()
         .optional(),
 
     body('name', 'Name is optional')
-        .notEmpty()
         .optional(),
 
     body('surname', 'Surname is optional')
-        .notEmpty()
         .optional(),
 
     body('phone', 'Phone is optional')
-        .notEmpty()
         .trim()
         .isLength({ min: 8, max: 8 })
         .matches(/^[2-7][0-9]{7}$/)
@@ -165,11 +161,9 @@ export const updateUserV = [
         .optional(),
 
     body('address', 'Address is optional')
-        .notEmpty()
         .optional(),
 
     body('email', 'Email is optional')
-        .notEmpty()
         .trim()
         .toLowerCase()
         .isEmail()
@@ -187,7 +181,6 @@ export const updateUserV = [
         .custom(notRequiredField),
 
     body('cui', 'CUI is optional')
-        .notEmpty()
         .trim()
         .isLength({ min: 13, max: 13 })
         .matches(/^[0-9]{13}$/)
@@ -195,7 +188,6 @@ export const updateUserV = [
         .optional(),
 
     body('nit', 'NIT is optional')
-        .notEmpty()
         .trim()
         .isLength({ min: 7, max: 10 })
         .matches(/^[0-9]{7,8}-?[0-9]$/)
