@@ -247,16 +247,22 @@ export const updateUserPasswordV = [
         .optional()
         .custom(notRequiredField),
 
-    body('oldPassword', 'oldPassword is required')
-        .notEmpty(),
-    
-    body('newPassword', 'oldPassword is required')
+   body('oldPassword', 'oldPassword is required')
         .notEmpty()
-        .isStrongPassword()
-        .withMessage('Password must be strong')
+        .isLength({min:1})
+        .withMessage('Old password cannot be empty'),
+
+    body('newPassword', 'newPassword is required')
+        .notEmpty()
         .isLength({min:8})
-        .withMessage('Password need min 8 chacarcters'),
-        
+        .withMessage('Password must be at least 8 characters long')
+        .matches(/\d/)
+        .withMessage('Password must contain at least one number')
+        .matches(/[A-Z]/)
+        .withMessage('Password must contain at least one uppercase letter')
+        .matches(/[!@#$%^&*(),.?":{}|<>]/)
+        .withMessage('Password must contain at least one special character'),
+
     body('role', 'Role is not required')
         .optional()
         .custom(notRequiredField),
