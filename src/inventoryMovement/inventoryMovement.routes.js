@@ -22,10 +22,10 @@ import {
 
 const api = Router()
 
-api.post('/addInventoryMovement', validateJwt, addInventoryMovementV,  addInventoryMovement)
-api.put('/updateInventoryMovement/:id', validateJwt, updateInventoryMovementV, updateInventoryMovement)
+api.post('/addInventoryMovement', validateJwt, isAdmin, addInventoryMovementV,  addInventoryMovement)
+api.put('/updateInventoryMovement/:id', validateJwt, isAdmin, updateInventoryMovementV, updateInventoryMovement)
 api.put('/softDeleteInventoryMovement/:id', validateJwt, isAdmin, softDeleteInventoryMovementV, softDeleteInventoryMovement)
 api.get('/listInventoryMovement', validateJwt, isAdmin, listInventoryMovement)
-api.get('/listInventoryMovementActive', validateJwt, listInventoryMovementActive)
-api.get('/listInventoryMovementById/:id', validateJwt, listInventoryMovementById)
+api.get('/listInventoryMovementActive', validateJwt, isAdmin, listInventoryMovementActive)
+api.get('/listInventoryMovementById/:id', validateJwt, isAdmin, listInventoryMovementById)
 export default api
