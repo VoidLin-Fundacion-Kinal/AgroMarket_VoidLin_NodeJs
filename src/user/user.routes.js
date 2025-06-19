@@ -25,7 +25,7 @@ const api = Router()
 
 api.put('/updateProfilePhone', validateJwt, uploadProfilePicture, updateUserLogo)
 api.put('/updateUser', validateJwt, updateUserV, updateUser)
-api.put('/updatePassword', updateUserPasswordV, validateJwt, updatePassword)
+api.put('/updatePassword', validateJwt, updateUserPasswordV, updatePassword)
 api.put('/softDeleteUser', validateJwt, softDeleteUserV, softDeleteUser)
 api.get('/getAllUser', validateJwt, isAdmin, getAllUser)
 api.get('/getAllActiveUsers', validateJwt, isAdmin, getAllActiveUsers)
