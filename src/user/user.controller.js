@@ -140,6 +140,13 @@ export const softDeleteUser  = async (req, res) => {
                 message: 'User  not found'
             });
         }
+        if (userC.role === 'ADMINPLATAFORM') {
+            return res.status(403).send({
+                success: false,
+                message: 'ADMINPLATAFORM cannot be deactivated'
+            });
+        }
+
 
         const isPasswordValid = await checkPassword(userC.password, password);
         if (isPasswordValid) {
