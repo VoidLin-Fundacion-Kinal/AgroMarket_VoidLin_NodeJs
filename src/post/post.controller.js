@@ -196,7 +196,7 @@ export const listPostById = async (req, res) => {
 export const softDeletePost = async (req, res) => {
     try {
         const { id } = req.params
-        const { deactivationReason } = req.body
+        const { deactivationReason } = req.body || {}
 
         const post = await Post.findById(id)
 
