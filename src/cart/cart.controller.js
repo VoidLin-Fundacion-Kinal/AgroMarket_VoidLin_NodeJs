@@ -114,7 +114,7 @@ export const listCart = async (req, res) => {
         const carts = await Cart.find()
             .limit(Number(limit))
             .skip(Number(skip))
-            .populate('user', 'name email')
+            .populate('user', 'name surname email')
             .populate('items.product')
 
         if (!carts || carts.length === 0) {
