@@ -89,7 +89,7 @@ export const updatePassword = async (req, res) => {
                 message: 'New password cannot be the same as the old password'
             });
         }
-        
+
          if (!user || !user.isActive) {
             return res.status(403).send({
                 success: false,
@@ -143,7 +143,7 @@ export const softDeleteUser  = async (req, res) => {
         const isPasswordValid = await checkPassword(userC.password, password);
         if (isPasswordValid) {
             userC.isActive = false;
-            userC.deactivationReason = deactivationReason;
+            userC.deactivationReason = deactivationReason || 'No reason provided'
             userC.deactivatedAt = new Date()
             await userC.save();
 
