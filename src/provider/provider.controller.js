@@ -253,7 +253,7 @@ export const listProviderByName = async (req, res) => {
 export const softDeleteProvider = async (req, res) => {
     try {
         const { id } = req.params
-        const { deactivationReason } = req.body
+        const { deactivationReason } = req.body || {}
 
         const provider = await Provider.findById(id)
 
