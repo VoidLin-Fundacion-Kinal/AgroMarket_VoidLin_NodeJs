@@ -1,0 +1,216 @@
+import React,{useEffect, useState} from 'react'
+import { useProviders } from '../../shared/hooks/useProviders'
+
+
+export const ProviderForm = ({ 
+    handleModal,
+    provider,
+}) => {
+    
+    const form = {
+        name: {
+            value: '',
+            isValid: false,
+            showError: false
+        },
+        description: {
+            value: '',
+            isValid: false,
+            showError: false
+        },
+        email: {
+            value: '',
+            isValid: false,
+            showError: false
+        },
+        typeProduct:{
+            value: '',
+            isValid: false,
+            showError: false
+
+        },
+        phone:{
+            value: '',
+            isValid: false,
+            showError: false
+
+        },
+        legalRepresentative:{
+            value: '',
+            isValid: false,
+            showError: false
+
+        },
+        logo:{
+            value: '',
+            isValid: false,
+            showError: false
+
+        }
+        
+    }
+
+    const {addProvider}= useProviders()
+    const [formData, setFormData] = useState(form)
+
+
+    const handleSubmit = async (event)=>{
+        event.preventDefault()
+        //const input = document.getElementById('name')
+        console.log(formData)
+        addProvider(
+            formData.name.value,
+            formData.description.value,
+            formData.email.value,
+            formData.typeProduct.value,
+            formData.phone.value,
+            formData.legalRepresentative.value,
+
+        )
+        handleModal()
+        
+    }
+
+    const handleValueChange = (value, field)=>{
+        setFormData((prevData)=> (
+            {
+                ...prevData,
+                //Inyección de nuevo valor:
+                [field]: {
+                    ...prevData[field],
+                    value
+                }
+            }
+        ))
+    }
+
+  
+    
+    
+
+   
+    
+
+  return (
+    <div className='fixed inset-0 z-10 flex items-center justify-center'>
+        <div className='absolute inset-0 bg-black opacity-80' onClick={handleModal}>
+
+        </div>
+        
+        <div className='relative border bg-gray-500/90 rounded-lg max-w-[100vh] w-full mx-4 p-8  mb-1.5 overflow-auto max-h-[80vh] '>
+            <button
+              onClick={handleModal}
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className=' rounded-2xl'>
+                <h1 className='text-4xl  font-bold p-5 m-10  text-white' >Agregar Proveedor</h1>
+            <form onSubmit={handleSubmit} className='p-4 grid grid-flow-col grid-rows-8 gap-10 items bg-white m-8 rounded-2xl ' >
+                <div className=''>
+                    <label  className="bg-sky-700 text-xl text-center w h-11 w-full  px-2 p-1 text-white inline-block rounded-lg m-2">
+                     Name
+                    </label>          
+                </div>
+                <div>
+                    <label  className="bg-sky-700 h-11 text-xl  w-full text-center px-2 p-1 text-white inline-block rounded-lg m-2">
+                     Description
+                    </label>  
+                </div>
+                <div>
+                    <label  className="bg-sky-700 h-11 text-xl w-full text-center px-2 p-1 text-white inline-block rounded-lg m-2">
+                     Email
+                    </label>  
+                </div>
+                <div>
+                    <label  className="bg-sky-700 h-11 text-xl w-full text-center px-2 p-1 text-white inline-block rounded-lg m-2">
+                     Type Of Product
+                    </label>  
+                </div>
+                <div>
+                    <label  className="bg-sky-700 h-11 text-xl  w-full text-center px-2 p-1 text-white inline-block rounded-lg m-2">
+                     Phone
+                    </label>  
+                </div>
+                <div>
+                    <label  className="bg-sky-700 h-11 text-xl w-full text-center px-2 p-1 text-white inline-block rounded-lg m-2">
+                     Legal Representative
+                    </label>  
+                </div>
+                <div className=''>
+                    <label className="bg-sky-700 h-11 text-xl w-full text-center px-2 p-1 text-white inline-block rounded-lg m-2 ">
+                     Logo
+                    </label>   
+                </div>
+                <div className='p-2 flex justify-between'>
+                    <button className='bg-green-600 p-2 w-1/2 m-0.5 rounded-xl text-white hover:bg-green-900' type='submit'>Agregar</button>
+                    <button className='bg-red-500 p-2 w-1/2 m-0.5 rounded-xl text-white hover:bg-red-800' onClick={handleModal}>Cancelar</button>
+                </div>
+                <div className=''>
+                    <input 
+                    onChange={(e) => handleValueChange(e.target.value, e.target.name)}
+                    name='name' 
+                    value={formData.name.value} 
+                    placeholder='Provider'
+                    className=" text-black px-4 py-1 h-10 w-80 border-gray-600 rounded-sm border-2 " />   
+                </div>
+                <div>
+                    <input 
+                    onChange={(e) => handleValueChange(e.target.value, e.target.name)}
+                    name='description' 
+                    value={formData.description.value} 
+                    placeholder='Description'
+                    className=" text-black px-4 py-1 h-10 w-80 border-gray-600 rounded-sm border-2" />
+                </div>
+                <div>
+                    <input 
+                    onChange={(e) => handleValueChange(e.target.value, e.target.name)}
+                    name='email' 
+                    value={formData.email.value} 
+                    placeholder='Email'
+                    className=" text-black px-4 py-1 h-10 w-80 border-gray-600 rounded-sm border-2" />
+                </div>
+                <div>
+                    <input 
+                    onChange={(e) => handleValueChange(e.target.value, e.target.name)}
+                    name='typeProduct' 
+                    value={formData.typeProduct.value} 
+                    placeholder='Type Of Prdoduct'
+                    className=" text-black px-4 py-1 h-10 w-80 border-gray-600 rounded-sm border-2" />
+                </div>
+                <div>
+                    <input 
+                    onChange={(e) => handleValueChange(e.target.value, e.target.name)}
+                    name='phone' 
+                    value={formData.phone.value} 
+                    placeholder='Provider'
+                    className=" text-black px-4 py-1 h-10 w-80 border-gray-600 rounded-sm border-2" />
+                </div>
+                <div>
+                    <input 
+                    onChange={(e) => handleValueChange(e.target.value, e.target.name)}
+                    name='legalRepresentative' 
+                    value={formData.legalRepresentative.value} 
+                    placeholder='Legal Representative'
+                    className=" text-black px-4 py-1 h-10 w-80 border-gray-600 rounded-sm border-2" />
+                </div>
+                <div>
+                    <input 
+                    onChange={(e) => handleValueChange(e.target.value, e.target.name)}
+                    name='logo' 
+                    value={formData.logo.value} 
+                    placeholder='Logo'
+                    className=" text-black px-4 py-1 h-10 w-80 border-gray-600 rounded-sm border-2" />
+                </div>
+            </form>
+            </div>
+            
+        </div>
+  
+    </div>
+  )
+
+ }
