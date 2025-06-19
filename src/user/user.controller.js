@@ -83,6 +83,12 @@ export const updatePassword = async (req, res) => {
 
         let { oldPassword, newPassword } = req.body
 
+        if (oldPassword === newPassword) {
+            return res.status(400).send({
+                success: false,
+                message: 'New password cannot be the same as the old password'
+            });
+        }
         
          if (!user || !user.isActive) {
             return res.status(403).send({
