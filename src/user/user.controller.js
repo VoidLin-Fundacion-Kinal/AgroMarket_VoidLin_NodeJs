@@ -15,7 +15,7 @@ export const updateUser = async (req, res) => {
             })
         }
 
-        const { name, surname, phone, address, email } = req.body
+        const { name, surname, phone, address, email } = req.body  || {}
 
         const updatedUser = await User.findByIdAndUpdate(
             idC,
