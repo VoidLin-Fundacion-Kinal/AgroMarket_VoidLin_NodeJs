@@ -199,7 +199,7 @@ export const listCategoryByName = async (req, res) => {
 export const softDeleteCategory = async (req, res) => {
     try {
         const { id } = req.params
-        const { deactivationReason } = req.body
+        const { deactivationReason } = req.body || {}
 
         const category = await Category.findById(id)
 
