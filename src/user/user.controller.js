@@ -1,4 +1,5 @@
 import User from '../user/user.model.js'
+import Post from '../post/post.model.js'
 import { encrypt, checkPassword } from '../../utils/encrypt.js'
 import path from 'path';
 import fs from 'fs';
@@ -147,6 +148,29 @@ export const softDeleteUser  = async (req, res) => {
             userC.deactivatedAt = new Date()
             await userC.save();
 
+            await Post.updateMany(
+            { user: userC._id },
+            {
+                $set: {
+                    isActive: false,
+                    deactivationReason: 'User and related posts soft deleted successfully',
+                    deactivatedAt: new Date()
+                }
+            }
+        )
+
+            await Post.updateMany(
+            { 'comments.user': userC._id },
+            {
+                $set: {
+                    'comments.$[elem].isActive': false
+                }
+            },
+            {
+                arrayFilters: [{ 'elem.user': userC._id }],
+                multi: true
+            }
+        );
             return res.send({
                 success: true,
                 message: 'User  soft deleted successfully'
