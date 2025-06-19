@@ -186,10 +186,10 @@ export const getBillById = async (req, res) => {
 export const getAllBills = async (req, res) => {
   try {
     const bills = await Bill.find()
-      .populate('user', 'name email')
+      .populate('user', 'name  surname email')
       .populate({
         path: 'cart',
-        populate: { path: 'items.product', select: 'name price' }
+        populate: { path: 'items.product', select: 'name  price' }
       }) 
 
     return res.status(200).send({
