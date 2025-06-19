@@ -251,8 +251,12 @@ export const updateUserPasswordV = [
         .notEmpty(),
     
     body('newPassword', 'oldPassword is required')
-        .notEmpty(),
-
+        .notEmpty()
+        .isStrongPassword()
+        .withMessage('Password must be strong')
+        .isLength({min:8})
+        .withMessage('Password need min 8 chacarcters'),
+        
     body('role', 'Role is not required')
         .optional()
         .custom(notRequiredField),
