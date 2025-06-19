@@ -68,137 +68,163 @@ export const addInventoryMovement = async (req, res) => {
         })
     }
 }
-
 export const updateInventoryMovement = async (req, res) => {
     try {
-        let data = req.body
+        let data = req.body;
+        let { amount, inputType } = req.body;
+        let { id } = req.params;
 
-        let { amount } = req.body
-
-        let { id } = req.params
-
-        let movement = await InventoryMovement.findById(id)
-
-
-
-
+        let movement = await InventoryMovement.findById(id);
         if (!movement) {
-            return res.status(404).send(
-                {
-                    success: false,
-                    message: 'Inventory Movent not found'
-                }
-            )
-        }
-        if (!movement.isActive) {
-            return res.status(403).send({
+            return res.status(404).send({
                 success: false,
-                message: 'This Inventory Movement is deactivated'
-            })
-    }
+                message: 'Movement not found'
+            });
+        }
 
-        let productSaved = await Product.findById(movement.product)
+        let product = await Product.findById(movement.product);
+        if (!product) {
+            return res.status(404).send({
+                success: false,
+                message: 'Product not found'
+            });
+        }
 
-        if (!productSaved) {
-            return res.status(404).send(
-                {
+        if (amount !== undefined) {
+            amount = Number(amount);
+            if (isNaN(amount)) {
+                return res.status(400).send({
                     success: false,
-                    message: 'Product not found'
+                    message: 'Amount must be a valid number'
+                });
+            }
+
+            const oldAmount = movement.amount;
+            const oldType = movement.inputType;
+            const newType = inputType || oldType;
+
+            // 1. Revertir el movimiento anterior (dejar el stock como si nunca se hubiera hecho)
+            if (oldType === 'entry') {
+                product.stock -= oldAmount;
+            } else {
+                product.stock += oldAmount;
+            }
+
+            // 2. Validar y aplicar el nuevo movimiento
+            if (newType === 'exit') {
+                if (amount > product.stock) {
+                    return res.status(400).send({
+                        success: false,
+                        message: 'Insufficient stock for updated exit movement'
+                    });
                 }
-            )
-        }
-
-        let { inputType } = movement
-        if (amount) {
-            switch (inputType) {
-                case 'exit':
-                    /* if(quantity >= (productSaved.amount + movement.quantity)) return res.status(400).send({success: false, message:'Quantity cannot be more than '+ productSaved.amount + movement.quantity})  */
-                    await Product.updateOne({ _id: movement.product }, { $inc: { stock: movement.amount } })
-                    let movement1 = await InventoryMovement.findByIdAndUpdate(id, data, { new: true })
-                    await Product.updateOne({ _id: movement.product }, { $inc: { stock: -amount } })
-                    return res.status(200).send(
-                        {
-                            success: true,
-                            message: 'Inventory Movement(exit) updated successfully',
-                            movement
-                        }
-                    )
-                    break 
-                case 'entry':
-                    await Product.updateOne({ _id: movement.product }, { $inc: { stock: -movement.amount } })
-                    let movement2 =await InventoryMovement.findByIdAndUpdate(id, data, { new: true })
-                    await Product.updateOne({ _id: movement.product }, { $inc: { stock: amount } })
-                    return res.status(200).send(
-                        {
-                            success: true,
-                            message: 'Inventory Movement(entry) updated successfully',
-                            movement2,
-                        }
-                    )
-                    break 
+                product.stock -= amount;
+            } else if (newType === 'entry') {
+                product.stock += amount;
+            } else {
+                return res.status(400).send({
+                    success: false,
+                    message: 'Invalid input type'
+                });
             }
-        }
 
-        await InventoryMovement.findByIdAndUpdate(id, data, { new: true })
+            // 3. Guardar el nuevo stock
+            await product.save();
 
-        return res.status(200).send(
-            {
+            // 4. Actualizar el movimiento y retornarlo
+            movement = await InventoryMovement.findByIdAndUpdate(id, { amount, inputType: newType }, { new: true });
+
+            return res.status(200).send({
                 success: true,
-                message: 'Inventory Movement updated successfully',
-                movement
-            }
-        )
+                message: `Inventory Movement (${newType}) updated successfully`,
+                movement,
+                product
+            });
+        }
+
+        // Si no se envió amount, solo actualiza otros campos
+        movement = await InventoryMovement.findByIdAndUpdate(id, data, { new: true });
+
+        return res.status(200).send({
+            success: true,
+            message: 'Inventory Movement updated (no stock affected)',
+            movement
+        });
 
     } catch (error) {
-        console.log(error) 
-
-        return res.status(500).send(
-            {
-                message: 'General error with  movements', error
-            }
-        )
+        console.error(error);
+        return res.status(500).send({
+            success: false,
+            message: 'General error with movements',
+            error
+        });
     }
+};
 
-}
 
 export const softDeleteInventoryMovement = async (req, res) => {
     try {
-        const { id } = req.params
-        const { deactivationReason } = req.body
+        const { id } = req.params;
+        const { deactivationReason } = req.body;
 
-        const movement = await InventoryMovement.findById(id)
-
-            if (!movement) {
-            return res.status(404).send(
-                {
+        const movement = await InventoryMovement.findById(id);
+        if (!movement) {
+            return res.status(404).send({
                 success: false,
                 message: 'Inventory Movement not found'
-                }
-            )
-    }
+            });
+        }
 
-        movement.isActive = false
-        movement.deactivationReason = deactivationReason || 'No reason provided'
-        movement.deactivatedAt = new Date()
+        // Validar si ya está desactivado
+        if (!movement.isActive) {
+            return res.status(400).send({
+                success: false,
+                message: 'Movement is already deactivated'
+            });
+        }
 
-        await movement.save()
+        // Buscar el producto relacionado
+        const product = await Product.findById(movement.product);
+        if (!product) {
+            return res.status(404).send({
+                success: false,
+                message: 'Associated product not found'
+            });
+        }
 
-        return res.status(200).send(
-            {
-                success: true,
-                message: 'Inventory Movement soft deleted successfully',
-                movement
-            }
-        )
+        // Revertir el efecto del movimiento
+        if (movement.inputType === 'entry') {
+            product.stock -= movement.amount;
+        } else if (movement.inputType === 'exit') {
+            product.stock += movement.amount;
+        }
+
+        // Guardar cambios
+        await product.save();
+
+        movement.isActive = false;
+        movement.deactivationReason = deactivationReason || 'No reason provided';
+        movement.deactivatedAt = new Date();
+
+        await movement.save();
+
+        return res.status(200).send({
+            success: true,
+            message: 'Inventory Movement soft deleted and stock reverted',
+            movement,
+            product
+        });
+
     } catch (error) {
-        console.error(error)
+        console.error(error);
         return res.status(500).send({
-        success: false,
-        message: 'Internal Server Error',
-        error
-        })
+            success: false,
+            message: 'Internal Server Error',
+            error
+        });
     }
-}
+};
+
 
 export const listInventoryMovement = async (req, res) => {
     try {
