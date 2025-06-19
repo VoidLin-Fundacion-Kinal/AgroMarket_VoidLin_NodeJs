@@ -1,4 +1,5 @@
 import Provider from './provider.model.js'
+import Product from '../product/product.model.js'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -265,6 +266,16 @@ export const softDeleteProvider = async (req, res) => {
                 }
             )
     }
+        await Product.updateMany(
+                    { provider: provider._id },
+                    {
+                        $set: {
+                            isActive: false,
+                            deactivationReason: 'Provider and related Product soft deleted successfully',
+                            deactivatedAt: new Date()
+                        }
+                    }
+                )
 
         provider.isActive = false
         provider.deactivationReason = deactivationReason || 'No reason provided'
