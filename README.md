@@ -48,8 +48,7 @@ AgroMarket Backend es la API RESTful que impulsa la plataforma digital más comp
 - **JWT**: Autenticación y autorización segura
 - **Bcrypt**: Encriptación de contraseñas
 - **Multer**: Manejo de archivos e imágenes
-- **Nodemailer**: Envío de correos electrónicos
-- **Cors**: Configuración de políticas de acceso
+- **Cors**: Configuración de políticas de aceso
  
 ## 🌟 Características Únicas de la API
  
