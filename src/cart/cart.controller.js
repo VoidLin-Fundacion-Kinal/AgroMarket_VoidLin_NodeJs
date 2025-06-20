@@ -107,6 +107,32 @@ export const listCartUserById = async (req, res) => {
     }
 }
 
+export const listCartUserByIdNew = async (req, res) => {
+    try {
+        const idC = req.user.uid
+        const cart = await Cart.find({ user: idC  }).populate('items.product')
+
+        if (!cart) {
+            return res.status(404).send({
+                success: false,
+                message: 'No active cart found'
+            })
+        }
+
+        return res.status(200).send({
+            success: true,
+            message: 'Cart found',
+            cart
+        })
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error'
+        })
+    }
+}
 // Listar todos los carritos (admin)
 export const listCart = async (req, res) => {
     try {
@@ -114,7 +140,7 @@ export const listCart = async (req, res) => {
         const carts = await Cart.find()
             .limit(Number(limit))
             .skip(Number(skip))
-            .populate('user', 'name email')
+            .populate('user', 'name surname email')
             .populate('items.product')
 
         if (!carts || carts.length === 0) {
