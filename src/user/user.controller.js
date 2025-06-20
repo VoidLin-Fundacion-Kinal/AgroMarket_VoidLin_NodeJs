@@ -61,7 +61,7 @@ export const listUserById = async (req, res) => {
     return res.status(200).send({
       success: true,
       message: 'User Found',
-      user
+      User: user
     })
   } catch (error) {
     console.error(error)
@@ -123,7 +123,7 @@ export const updatePassword = async (req, res) => {
 export const softDeleteUser  = async (req, res) => {
     try {
         let idC = req.user.uid
-        let { password, deactivationReason } = req.body
+        let { password, deactivationReason } = req.body ||{}
 
         let userC = await User.findById(idC);
 
@@ -159,6 +159,41 @@ export const softDeleteUser  = async (req, res) => {
         })
     }
 }
+
+export const softDeleteUserByAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { deactivationReason } = req.body || {};
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    user.isActive = false;
+    user.deactivationReason = deactivationReason || 'Deactivated by admin';
+    user.deactivatedAt = new Date();
+
+    await user.save();
+
+    return res.status(200).send({
+      success: true,
+      message: 'User soft deleted by admin successfully',
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send({
+      success: false,
+      message: 'Internal Server Error',
+    });
+  }
+};
+
 
 export const getAllUser = async (req, res) => {
     try {
