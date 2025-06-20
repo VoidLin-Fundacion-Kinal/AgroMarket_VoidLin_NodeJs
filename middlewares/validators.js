@@ -419,8 +419,7 @@ export const updateProviderV = [
     .optional()
     .trim()
     .notEmpty()
-    .isLength({min: 5, max: 50}).withMessage('Provider name must be between 5 and 50 characters')
-    .custom(existProvider),
+    .isLength({min: 5, max: 50}).withMessage('Provider name must be between 5 and 50 characters'),
 
     body('description', 'Provider description cannot be empty')
     .optional()
