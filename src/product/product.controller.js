@@ -519,7 +519,7 @@ export const listProductsProvider = async (req, res) => {
 export const softDeleteProduct = async (req, res) => {
     try {
         const { id } = req.params
-        const { deactivationReason } = req.body
+        const { deactivationReason } = req.body || {}
 
         const product = await Product.findById(id)
 
