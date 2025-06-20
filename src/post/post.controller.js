@@ -196,7 +196,7 @@ export const listPostById = async (req, res) => {
 export const softDeletePost = async (req, res) => {
     try {
         const { id } = req.params
-        const { deactivationReason } = req.body
+        const { deactivationReason } = req.body || {}
 
         const post = await Post.findById(id)
 
@@ -279,7 +279,7 @@ export const listPostActive = async (req, res) => {
 export const listPostsUser = async (req, res) => {
   try {
     const { limit = 20, skip = 0 } = req.query;
-    const { id } = req.params;
+    const id  = req.user.uid;
 
     // First check if user exists and is active
     const userData = await User.findById(id);
