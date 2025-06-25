@@ -570,8 +570,7 @@ export const updatedProductV = [
         .optional()
         .trim()
         .notEmpty()
-        .isLength({ min: 3, max: 30 }).withMessage('Product name must be between 3 and 30 characters')
-        .custom(existProduct),
+        .isLength({ min: 3, max: 30 }).withMessage('Product name must be between 3 and 30 characters'),
 
 
     body('description', 'Product description cannot be empty')

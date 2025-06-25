@@ -34,10 +34,11 @@ export const listCategory = async (req, res) => {
         const category = await Category.find({ isActive: true })
 
         if(!category || category.length == 0){
-            return res.status(404).send(
+            return res.status(200).send(
                 {
                     success: false,
-                    message: 'Category not found.'
+                    message: 'Category not found.',
+                    category: []
                 }
             )
         }
@@ -240,10 +241,11 @@ export const listAllCategory = async (req, res) => {
         let category = await Category.find().skip(skip).limit(limit)
 
         if(!category || category.length == 0){
-            return res.status(404).send(
+            return res.status(200).send(
                 {
                     success: false,
-                    message: 'Category not found.'
+                    message: 'Category not found.',
+                    category: []
                 }
             )
         }
@@ -264,5 +266,45 @@ export const listAllCategory = async (req, res) => {
                 error
             }
         )
+    }
+}
+
+export const revertSoftDeleteCategory = async (req, res) => {
+    try {
+        const { idCategory } = req.body
+        const category = await Category.findById(idCategory)
+
+        if (!category) {
+            return res.status(404).send({
+                success: false,
+                message: 'Category not found'
+            })
+        }
+
+        if (category.isActive === true) {
+            return res.status(400).send({
+                success: false,
+                message: 'Category is already active'
+            })
+        }
+
+        category.isActive = true
+        category.deactivationReason = null
+        category.deactivatedAt = null
+
+        await category.save()
+
+        return res.status(200).send({
+            success: true,
+            message: 'Category reverted successfully',
+            category
+        })
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error',
+            error
+        })
     }
 }

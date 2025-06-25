@@ -2,6 +2,47 @@ import User from '../user/user.model.js'
 import { encrypt, checkPassword } from '../../utils/encrypt.js'
 import path from 'path';
 import fs from 'fs';
+
+export const createUser = async (req, res) => {
+    try {
+        const { name, surname, username, address, email, password, phone, role, personalData } = req.body
+
+        // Encriptar la contraseña
+        const encryptedPassword = await encrypt(password)
+
+        const user = new User({ 
+            name, 
+            surname, 
+            username,
+            address, 
+            email, 
+            password: encryptedPassword, 
+            phone, 
+            role, 
+            personalData 
+        })
+        await user.save()
+
+        return res.status(201).send({
+            success: true,
+            message: 'User created successfully',
+            user
+        })  
+
+        
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error',
+            error
+        })
+    }
+}
+
+
+
+
 //Actualizar Usuario
 export const updateUser = async (req, res) => {
     try {
@@ -15,11 +56,11 @@ export const updateUser = async (req, res) => {
             })
         }
 
-        const { name, surname, phone, address, email } = req.body
+        const { name, surname, address } = req.body
 
         const updatedUser = await User.findByIdAndUpdate(
             idC,
-            { name, surname, phone, address, email },
+            { name, surname, address },
             { new: true }
         )
 
@@ -281,6 +322,45 @@ export const updateUserLogo = async (req, res) => {
   }
 };
  
+export const revertSoftDeleteUser = async (req, res) => {
+  try {
+    const {idUser} = req.body
+    const user = await User.findById(idUser)
+
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: 'User not found'
+      })
+    }
+
+    if (user.isActive === true) {
+      return res.status(400).send({
+        success: false,
+        message: 'User is already active'
+      })
+    }
+
+    user.isActive = true
+    user.deactivationReason = null
+    user.deactivatedAt = null
+
+    await user.save()
+
+    return res.status(200).send({
+      success: true,
+      message: 'User reverted successfully',
+      user
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({
+      success: false,
+      message: 'Internal Server Error',
+      error
+    })
+  }
+}
 
 
 /* =========================================================================================================*/
@@ -304,7 +384,7 @@ const initUser = async () => {
                 password: password,
                 phone: '47491420',
                 role: 'ADMINPLATAFORM',
-                profilePhoto: '../images/profileImages/Avatar-Default.jpg',
+                profilePhoto: 'Avatar-Default.jpg',
                 personalData: 
                     {
                         cui: '3001058960101',

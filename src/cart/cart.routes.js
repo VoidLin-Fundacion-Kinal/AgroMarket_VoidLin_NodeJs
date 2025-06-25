@@ -9,7 +9,7 @@ import {
     listCartUserById,
     updateCartItem,
     clearCart,
-    listCartUserByIdNew
+    listCartByUser
 } from './cart.controller.js'
 import {
         isAdmin,
@@ -34,6 +34,6 @@ api.get('/listCartById/:cartId', validateJwt, listCartById)
 api.post('/updateCartItem', validateJwt, updateCartItemV, updateCartItem)
 api.post('/deleteProductCart', validateJwt, deleteProductCartV, deleteProductCart)
 api.get('/clearCart', validateJwt, clearCart)
-api.get('/listCartUserByIdNew', validateJwt, listCartUserByIdNew)
+api.get('/listCartByUser', validateJwt, listCartByUser)
 
 export default api

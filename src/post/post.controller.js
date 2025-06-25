@@ -116,11 +116,12 @@ export const listPost = async (req, res) => {
             .skip(skip).limit(limit)
 
         if (!post || post.length == 0) {
-            return res.statu(404).send(
+            return res.status(200).send(
                 {
                     success: false,
-                    message: 'Post not found:'
-                }
+                    message: 'Post not found:',
+                    post: []
+                } 
             )
         }
 
@@ -251,9 +252,10 @@ export const listPostActive = async (req, res) => {
             .lean()
 
             if (!posts || posts.length === 0) {
-                    return res.status(404).send({
+                    return res.status(200).send({
                     success: false,
-                    message: 'No active posts found'
+                    message: 'No active posts found',
+                    posts: []
                 })
             }
 
@@ -312,9 +314,10 @@ export const listPostsUser = async (req, res) => {
       .skip(Number(skip));
 
     if (!posts || posts.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: false,
-        message: 'No posts found for this user'
+        message: 'No posts found for this user',
+        posts: []
       });
     }
 
@@ -326,6 +329,47 @@ export const listPostsUser = async (req, res) => {
 
   } catch (error) {
     console.error('Error listing posts:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+      error: error.message
+    });
+  }
+};
+
+export const revertSoftDeletePost = async (req, res) => {
+  try {
+    const { idPost } = req.body;
+
+    const post = await Post.findById(idPost);
+
+    if (!post) {
+      return res.status(404).json({
+        success: false,
+        message: 'Post not found'
+      });
+    }
+
+    if (post.isActive === true) {
+      return res.status(400).json({
+        success: false,
+        message: 'Post is already active'
+      });
+    }
+
+    post.isActive = true;
+    post.deactivationReason = null;
+    post.deactivatedAt = null;
+
+    await post.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'Post reverted successfully',
+      post
+    });
+  } catch (error) {
+    console.error('Error reverting post:', error);
     return res.status(500).json({
       success: false,
       message: 'Internal server error',

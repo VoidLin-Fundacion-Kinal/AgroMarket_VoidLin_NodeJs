@@ -190,7 +190,6 @@ export const updateProductImage = async (req, res) => {
 
 export const listProductActive = async (req, res) => {
   try {
-    const { limit = 20, skip = 0 } = req.query 
     
             
     const products = await Product.find({isActive: true })
@@ -202,11 +201,10 @@ export const listProductActive = async (req, res) => {
         path: 'category',
         select: '-__v -createdAt -updatedAt'
       })
-      .limit(Number(limit))
-      .skip(Number(skip)) 
+  
       
     if(!products || products.length == 0){
-                return res.status(404).send(
+                return res.status(200).send(
                     {
                         success: false,
                         message: 'products not found.'
@@ -237,7 +235,6 @@ export const listProductActive = async (req, res) => {
 
 export const listProduct = async (req, res) => {
   try {
-    const { limit = 20, skip = 0 } = req.query 
 
     const products = await Product.find()
       .populate({
@@ -248,13 +245,13 @@ export const listProduct = async (req, res) => {
         path: 'category',
         select: '-__v -createdAt -updatedAt'
       })
-      .limit(Number(limit))
-      .skip(Number(skip)) 
+   
 
     if (!products || products.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         success: false,
-        message: 'Products not found'
+        message: 'Products not found',
+        products: []
       }) 
     }
 
@@ -551,6 +548,48 @@ export const softDeleteProduct = async (req, res) => {
         success: false,
         message: 'Internal Server Error',
         error
+        })
+    }
+}
+
+export const revertSoftDeleteProduct = async (req, res) => {
+    try {
+        const {idProduct} = req.body
+        const product = await Product.findById(idProduct)
+
+        if (!product) {
+            return res.status(404).send({
+                success: false,
+                message: 'Product not found'
+            })
+        }
+
+        if (product.isActive === true) {
+            return res.status(400).send({
+                success: false,
+                message: 'Product is already active'
+            })
+        }
+
+        product.isActive = true
+        product.deactivationReason = null
+        product.deactivatedAt = null
+
+        await product.save()
+
+        return res.status(200).send({
+            success: true,
+            message: 'Product reverted successfully',
+            product 
+        })
+
+        
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error',
+            error
         })
     }
 }

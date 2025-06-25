@@ -215,10 +215,11 @@ export const listInventoryMovement = async (req, res) => {
             .skip(skip)
 
         if (!inventoryMovement || inventoryMovement.length == 0) {
-            return res.status(404).send(
+            return res.status(200).send(
                 {
                     success: false,
-                    message: 'Inventory not found:'
+                    message: 'Inventory not found:',
+                    inventory: []
                 }
             )
         }

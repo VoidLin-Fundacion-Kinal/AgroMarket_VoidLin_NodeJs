@@ -7,7 +7,8 @@ import {
            listProviderActive,
            updateProvider, 
            updateProviderLogo, 
-           softDeleteProvider
+           softDeleteProvider,
+           revertSoftDeleteProvider
         } from "./provider.controller.js" 
 
 import { Router } from "express" 
@@ -31,5 +32,7 @@ api.get('/listProviderActive', validateJwt, isAdmin, listProviderActive)
 api.get('/listProviderById/:id', validateJwt, isAdmin, listProviderById)
 
 api.get('/listProviderByName', validateJwt, isAdmin, listProviderByNameV, listProviderByName)
+
+api.post('/revertSoftDeleteProvider', validateJwt, revertSoftDeleteProvider)
 
 export default api

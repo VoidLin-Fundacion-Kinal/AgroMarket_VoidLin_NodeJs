@@ -12,7 +12,8 @@ import {
             listProductsZA, 
             softDeleteProduct,
             updateProduct, 
-            updateProductImage 
+            updateProductImage,
+            revertSoftDeleteProduct 
         } from './product.controller.js'
 
 import {
@@ -42,6 +43,7 @@ api.get('/listProductsZA', validateJwt, listProductsZA)
 api.get('/listProductsPriceHigh', validateJwt, listProductsPriceHigh)
 api.get('/listProductsPriceLow', validateJwt, listProductsPriceLow)
 api.get('/listProductsProvider/:id', validateJwt, listProductsProvider)
+api.post('/revertSoftDeleteProduct', validateJwt, revertSoftDeleteProduct)
 
 
 

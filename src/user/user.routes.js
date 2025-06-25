@@ -8,7 +8,9 @@ import {
     getAllUser,
     getAllActiveUsers,
     updateUserLogo,
-    softDeleteUserByAdmin
+    softDeleteUserByAdmin,
+    revertSoftDeleteUser,
+    createUser
 } from './user.controller.js'
 
 import {
@@ -32,5 +34,7 @@ api.get('/getAllUser', validateJwt, isAdmin, getAllUser)
 api.get('/getAllActiveUsers', validateJwt, isAdmin, getAllActiveUsers)
 api.get('/listUserById', validateJwt, listUserById)
 api.put('/softDeleteUserByAdmin/:id', validateJwt, isAdmin, softDeleteUserByAdmin)
+api.post('/revertSoftDeleteUser', validateJwt, revertSoftDeleteUser)    
+api.post('/createUser', validateJwt, isAdmin, createUser)
 
 export default api
