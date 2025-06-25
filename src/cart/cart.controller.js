@@ -86,7 +86,7 @@ export const listCartUserById = async (req, res) => {
         const cart = await Cart.findOne({ user: idC, status: 'active' }).populate('items.product')
 
         if (!cart) {
-            return res.status(404).send({
+            return res.status(200).send({
                 success: false,
                 message: 'No active cart found'
             })
@@ -107,6 +107,32 @@ export const listCartUserById = async (req, res) => {
     }
 }
 
+export const listCartByUser = async (req, res) => {
+    try {
+        const idC = req.user.uid
+        const cart = await Cart.find({ user: idC  }).populate('items.product')
+
+        if (!cart) {
+            return res.status(404).send({
+                success: false,
+                message: 'No active cart found'
+            })
+        }
+
+        return res.status(200).send({
+            success: true,
+            message: 'Cart found',
+            cart
+        })
+
+    } catch (error) {
+        console.error(error)
+        return res.status(500).send({
+            success: false,
+            message: 'Internal Server Error'
+        })
+    }
+}
 // Listar todos los carritos (admin)
 export const listCart = async (req, res) => {
     try {
@@ -118,9 +144,10 @@ export const listCart = async (req, res) => {
             .populate('items.product')
 
         if (!carts || carts.length === 0) {
-            return res.status(404).send({
+            return res.status(200).send({
                 success: false,
-                message: 'No carts found'
+                message: 'No carts found',
+                carts: []
             })
         }
 

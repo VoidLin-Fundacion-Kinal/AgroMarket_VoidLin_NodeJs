@@ -1,19 +1,20 @@
 
 import { validationResult } from "express-validator"
 
-//Valida los errores.
-export const validateErrors = (req, res, next)=>{
-    const errors = validationResult(req)
-    if(!errors.isEmpty()){
-        return res.status(400).send(
-            {
-                errors: errors
-            }
-        )
+export const validateErrors = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            success: false,
+            message: "Error de validación",
+            errors: errors.array().map(err => ({
+                field: err.param,
+                message: err.msg 
+            }))
+        });
     }
-    next()
-}
-
+    next();
+};
 //Valida si hay campos vacios.
 export const validateErrorsWithoutFiles = (req, res, next)=>{
     const errors = validationResult(req)

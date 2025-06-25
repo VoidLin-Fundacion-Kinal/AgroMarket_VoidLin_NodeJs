@@ -288,3 +288,43 @@ export const softDeleteProvider = async (req, res) => {
         })
     }
 }
+
+export const revertSoftDeleteProvider = async (req, res) => {
+  try {
+    const {idProvider} = req.body
+    const provider = await Provider.findById(idProvider)
+
+    if (!provider) {
+      return res.status(404).send({
+        success: false,
+        message: 'Provider not found'
+      })
+    }
+
+    if (provider.isActive === true) {
+      return res.status(400).send({
+        success: false,
+        message: 'Provider is already active'
+      })
+    }
+
+    provider.isActive = true
+    provider.deactivationReason = null
+    provider.deactivatedAt = null
+
+    await provider.save()
+
+    return res.status(200).send({
+      success: true,
+      message: 'Provider reverted successfully',
+      provider
+    })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).send({
+      success: false,
+      message: 'Internal Server Error',
+      error
+    })
+  }
+}

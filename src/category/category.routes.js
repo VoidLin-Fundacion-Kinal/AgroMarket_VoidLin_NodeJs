@@ -6,7 +6,8 @@ import {
     listCategoryById,
     listCategoryByName,
     listAllCategory,
-    softDeleteCategory
+    softDeleteCategory,
+    revertSoftDeleteCategory
 } from './category.controller.js'
 
 import {
@@ -28,6 +29,7 @@ api.post('/addCategory',validateJwt, isAdmin, CategoryRegisterV, addCategory)
 api.get('/listCategory',validateJwt, isAdmin, listCategory)
 api.put('/updateCategory/:id',validateJwt, isAdmin, CategoryUpdateV, updateCategory)
 api.put('/softDeleteCategory/:id',validateJwt, isAdmin, softDeleteCategoryV, softDeleteCategory)
+api.put('/revertSoftDeleteCategory',validateJwt, isAdmin, revertSoftDeleteCategory)
 api.get('/listCategoryById/:id',validateJwt, listCategoryById)
 api.get('/listAllCategory', validateJwt, isAdmin, listAllCategory)
 api.get('/listCategoryByName', validateJwt, listCategoryByNameV, listCategoryByName)

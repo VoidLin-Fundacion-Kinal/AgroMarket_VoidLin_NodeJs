@@ -6,7 +6,8 @@ import {
     listPostsUser,
     listPostActive,
     updatePost,
-    softDeletePost
+    softDeletePost,
+    revertSoftDeletePost
 } from './post.controller.js'
 
 import {
@@ -26,10 +27,10 @@ const api = Router()
 
 api.post('/addPost', validateJwt, uploadPostImages, addPostV, addPost)
 api.put('/updatePost/:id', validateJwt, updatePostV, updatePost)
-api.put('/softDeletePost/:id', validateJwt, isAdmin, softDeletePostV, softDeletePost)
+api.put('/softDeletePost/:id', validateJwt, softDeletePostV, softDeletePost)
 api.get('/listPost', validateJwt, isAdmin, listPost)
-api.get('/listPostsUser/:id', validateJwt, listPostsUser)
+api.get('/listPostsUser', validateJwt, listPostsUser)
 api.get('/listPostById/:id', validateJwt, listPostById)
 api.get('/listPostActive', listPostActive)
-
+api.put('/revertSoftDeletePost', validateJwt, isAdmin, revertSoftDeletePost)
 export default api
