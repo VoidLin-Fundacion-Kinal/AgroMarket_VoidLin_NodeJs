@@ -17,13 +17,10 @@ AgroMarket Backend es la API RESTful que impulsa la plataforma digital más comp
 - **Gestión de Productos**: CRUD completo para alimentos, vacunas, pesticidas, vitaminas y semillas
 - **Categorización Inteligente**: Sistema jerárquico de categorías especializadas
 - **Control de Inventario**: Gestión de stock en tiempo real
-- **Sistema de Búsqueda**: Endpoints para filtrado avanzado y búsqueda
  
 ### 📢 API de Publicaciones P2P
  
 - **Marketplace Endpoints**: Gestión de publicaciones entre usuarios
-- **Geolocalización**: APIs para búsqueda por ubicación
-- **Gestión de Estados**: Control del ciclo de vida de publicaciones
 - **Sistema de Notificaciones**: Alertas y comunicaciones automatizadas
  
 ### 🔐 Autenticación y Autorización
@@ -53,13 +50,6 @@ AgroMarket Backend es la API RESTful que impulsa la plataforma digital más comp
  
 ## 🌟 Características Únicas de la API
  
-### 🔍 Endpoints de Búsqueda Especializada
- 
-- Filtros específicos por especie animal
-- Búsqueda por tipo de cultivo y temporada
-- Geolocalización de productos y servicios
-- Algoritmos de recomendación personalizados
- 
 ### 📊 APIs de Análisis y Reportes
  
 - Estadísticas de ventas y tendencias
@@ -74,12 +64,7 @@ AgroMarket Backend es la API RESTful que impulsa la plataforma digital más comp
 - Historial de transacciones y actividad
 - APIs de moderación y soporte
  
-### 💰 Procesamiento de Transacciones
- 
-- Gestión completa de carritos de compra
-- Sistema de facturación y pedidos
-- Integración preparada para pasarelas de pago
-- Tracking de envíos y estados
+
  
 ## 👥 Nuestro Equipo
  
